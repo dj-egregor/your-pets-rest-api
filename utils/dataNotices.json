@@ -1,0 +1,66 @@
+[
+    {
+        "title": "Adorable Kitten Looking for a Home",
+        "url": "https://ru.freepik.com/free-photo/kitty-with-monochrome-wall-behind-her_13863370.htm#query=cat&position=3&from_view=search&track=sph",
+        "category": "sell",
+        "name": "Myrzik",
+        "birthday": "10.07.2022",
+        "breed": "Siamese",
+        "place": "Lviv",
+        "sex": "male",
+        "comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "favorite": false,
+        "owner": {
+            "email": "user@mail.com",
+            "phone": "+380971234567"
+        }
+    },
+    {
+        "title": "Puppies for Sale: Your New Best Friend",
+        "url": "https://ru.freepik.com/free-photo/the-brown-labrador-retriever-on-white_9059754.htm#query=dog&position=5&from_view=search&track=sph",
+        "category": "sell",
+        "name": "Bobik",
+        "birthday": "11.01.2023",
+        "breed": "Labrador Retriever",
+        "place": "Lviv",
+        "sex": "female",
+        "comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "favorite": false,
+        "owner": {
+            "email": "user1@mail.com",
+            "phone": "+380971111111"
+        }
+    },
+    {
+        "title": "Colorful Parrot for Your Home",
+        "url": "https://ru.freepik.com/free-photo/closeup-shot-of-orange-and-green-parrots-in-a-cage_31177800.htm#query=Parrot&position=5&from_view=search&track=sph",
+        "category": "in good hands",
+        "name": "Loli",
+        "birthday": "02.12.2022",
+        "breed": "Parrot",
+        "place": "Lviv",
+        "sex": "male",
+        "comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "favorite": false,
+        "owner": {
+            "email": "user2@mail.com",
+            "phone": "+380971111112"
+        }
+    },
+    {
+        "title": "Sweet Chinchilla in Need of a Loving Owner",
+        "url": "https://ru.freepik.com/free-photo/medium-shot-woman-with-cute-chinchilla_38689872.htm#query=Chinchillas&position=2&from_view=search&track=sph",
+        "category": "in good hands",
+        "name": "Poli",
+        "birthday": "07.11.2022",
+        "breed": "Parrot",
+        "place": "Kyiv",
+        "sex": "male",
+        "comments": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "favorite": false,
+        "owner": {
+            "email": "user3@mail.com",
+            "phone": "+380971111113"
+        }
+    }
+]
