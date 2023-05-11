@@ -17,12 +17,12 @@ router.get('/category/:category', ctrl.getNoticesByCategory);
 router.get('/:noticeId', ctrl.getNoticeById);
 
 // створити ендпоінт для додавання оголошення до обраних - тільки для зареєстр
-router.post(
-    '/favorites/:id',
-    authenticate,
-    validation.validate(updateStatusNoticeSchema),
-    ctrl.updateStatusNotice
-);
+// router.post(
+//     '/favorites/:id',
+//     authenticate,
+//     validation.validate(updateStatusNoticeSchema),
+//     ctrl.updateStatusNotice
+// );
 
 // створити ендпоінт для отримання оголошень авторизованого користувача доданих ним же в обрані - тільки для зареєстр
 // router.get('/favorites', ctrl.getFavoritesNoticesByUser);
