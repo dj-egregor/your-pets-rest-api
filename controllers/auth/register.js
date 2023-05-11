@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 const url = `${BASE_URL}:${PORT}`;
 
+const verifyPet = require('../../helpers/verifyPet');
 const { User } = require('../../models/user');
 
 const register = async (req, res, next) => {
@@ -31,7 +32,7 @@ const register = async (req, res, next) => {
             avatarURL,
             verificationToken,
         });
-
+        verifyPet(newUser._id.toString());
         const verifyEmail = {
             to: email,
             subject: 'Verify email',

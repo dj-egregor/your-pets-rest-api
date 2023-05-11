@@ -9,7 +9,7 @@ const petSchema = new Schema(
         photoURL: {
             type: String,
         },
-        birthdate: {
+        birthday: {
             type: Date,
             required: true,
         },
@@ -25,7 +25,10 @@ const petSchema = new Schema(
             required: true,
         },
     },
-    { versionKey: false }
+    {
+        versionKey: false,
+        timestamps: true,
+    }
 );
 
 const Pet = model('pet', petSchema);

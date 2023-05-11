@@ -1,20 +1,19 @@
 const Joi = require('joi');
 
-const addContactSchema = Joi.object({
-    name: Joi.string().required().messages({
+const addPetSchema = Joi.object({
+    name: Joi.string().min(2).max(16).messages({
         'any.required': 'Missing required name field',
     }),
-    email: Joi.string().email().lowercase().required().messages({
-        'any.required': 'Missing required email field',
-        'string.email': 'Invalid email format',
-    }),
-    phone: Joi.string()
-        .regex(/^[0-9 ()-]+$/)
-        .required()
-        .messages({
-            'any.required': 'Missing required phone field',
-            'string.pattern.base': 'Invalid phone format',
-        }),
+
+    photoURL: Joi.binary()
+        .max(3 * 1024 * 1024)
+        .description('PetImage max 3mb'),
+
+    birthday: Joi.date().max('now').required(),
+
+    breed: Joi.string().min(2).max(16).description('Pet breed'),
+
+    comments: Joi.string().min(8).max(120).description('Comments to pet'),
 });
 
-module.exports = addContactSchema;
+module.exports = addPetSchema;
