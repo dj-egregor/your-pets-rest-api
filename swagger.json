@@ -1,0 +1,25 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.0",
+        "title": "Your-pets API docs",
+        "description": "API documentation for Your pets progect"
+    },
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "servers": [{ "url": "http://localhost:3001" }],
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Authorization endpoints"
+        },
+        {
+            "name": "Notices",
+            "description": "Notices endpoints"
+        },
+        {
+            "name": "Pets",
+            "description": "Pats endpoints"
+        }
+    ]
+}
