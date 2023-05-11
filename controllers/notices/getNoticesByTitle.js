@@ -6,6 +6,7 @@ const getNoticesByTitle = async (req, res, next) => {
         const { title } = req.params;
         const regex = new RegExp(title, 'i');
         const { page = 1, limit = 12 } = req.query;
+
         const skip = (page - 1) * limit;
 
         const result = await Notice.find({ title: regex })

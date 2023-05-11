@@ -11,6 +11,9 @@ const noticeSchema = new Schema(
             enum: ['sell', 'in good hands', 'lost/found'],
             required: [true, 'Set category for notice'],
         },
+        price: {
+            type: String,
+        },
         name: {
             type: String,
             required: [true, 'Set name for pet'],
@@ -21,16 +24,20 @@ const noticeSchema = new Schema(
         },
         breed: {
             type: String,
+            required: true,
         },
         place: {
             type: String,
+            required: true,
         },
         sex: {
             type: String,
             enum: ['male', 'female'],
+            required: true,
         },
         comments: {
             type: String,
+            required: true,
         },
         owner: {
             type: Schema.Types.ObjectId,

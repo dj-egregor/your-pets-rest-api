@@ -4,10 +4,11 @@ const Notice = require('../../models/notice');
 const getNoticesByCategory = async (req, res, next) => {
     try {
         const { category } = req.params;
+        console.log(category);
         const { page = 1, limit = 12 } = req.query;
         const skip = (page - 1) * limit;
 
-        const result = await Notice.find(category).skip(skip).limit(limit);
+        const result = await Notice.find({ category }).skip(skip).limit(limit);
 
         if (!result) {
             throw new NotFound(`Not found`);
