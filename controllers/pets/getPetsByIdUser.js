@@ -3,7 +3,7 @@ const Pet = require('../../models/pet');
 
 const getPetsByIdUser = async (req, res, next) => {
     try {
-        const { userId } = req.params;
+        const userId = req.user._id;
         const result = await Pet.find({ owner: userId });
 
         if (result.length === 0) {
