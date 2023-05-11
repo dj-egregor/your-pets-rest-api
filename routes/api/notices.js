@@ -11,7 +11,7 @@ router.get('/search/:title', ctrl.getNoticesByTitle);
 router.get('category/:category', ctrl.getNoticesByCategory);
 
 // створити ендпоінт для отримання одного оголошення
-router.get('category/:id', ctrl.getNoticeById);
+router.get('category/:id', ctrl.getNoticesById);
 
 // створити ендпоінт для додавання оголошення до обраних
 router.post('/favorites/:id', ctrl.updateStatusNotice);
@@ -20,7 +20,7 @@ router.post('/favorites/:id', ctrl.updateStatusNotice);
 router.get('/favorites', ctrl.getFavoritesNoticesByUser);
 
 // створити ендпоінт для видалення оголошення авторизованого користувача доданих цим же до обраних
-router.delete('/favorites/:id', ctrl.removeFavoritesNoticeByUser);
+router.delete('/favorites/:id', ctrl.removeFavoritesNoticesByUser);
 
 // створити ендпоінт для додавання оголошень відповідно до обраної категорії
 router.post('/category/:category', ctrl.createNoticeByCategory);
