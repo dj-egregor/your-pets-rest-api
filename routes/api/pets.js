@@ -3,43 +3,20 @@ const express = require('express');
 const { pets: ctrl } = require('../../controllers');
 const validation = require('../../middlewares/validation');
 
-const {
-    addContactSchema,
-    updateContactSchema,
-    updateStatusContactSchema,
-} = require('../../schemas/pets');
-
-const isValidId = require('../../middlewares/isValidId');
 const authenticate = require('../../middlewares/authenticate');
+const addPetSchema = require('../../schemas/pets');
 
 const router = express();
 
-router.get('/', authenticate, ctrl.listContacts);
-
-router.get('/:contactId', authenticate, isValidId, ctrl.getContactById);
+router.get('/', authenticate, ctrl.getUserPets);
 
 router.post(
     '/',
     authenticate,
-    validation.validate(addContactSchema),
-    ctrl.addContact
+    validation.validate(addPetSchema),
+    ctrl.addPet
 );
 
-router.delete('/:contactId', authenticate, isValidId, ctrl.removeContact);
-
-router.put(
-    '/:contactId',
-    authenticate,
-    isValidId,
-    validation.validate(updateContactSchema),
-    ctrl.updateContact
-);
-
-router.patch(
-    '/:contactId/favorite',
-    authenticate,
-    validation.validate(updateStatusContactSchema),
-    ctrl.updateStatusContact
-);
+router.delete('/:petId', authenticate, ctrl.removePet);
 
 module.exports = router;

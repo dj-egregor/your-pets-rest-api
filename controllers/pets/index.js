@@ -1,9 +1,9 @@
-const getPetsByIdUser = require('./getPetsByIdUser');
+const getUserPets = require('./getUserPets');
 const addPet = require('./addPet');
 const removePet = require('./removePet');
 
 module.exports = {
-    getPetsByIdUser,
+    getUserPets,
     addPet,
     removePet,
 };
