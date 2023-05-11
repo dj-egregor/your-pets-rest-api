@@ -20,7 +20,7 @@ const swaggerOptions = {
 
 const contactsRouter = require('./routes/api/contacts');
 const authRouter = require('./routes/api/auth');
-// const petsRouter = require('./routes/api/pets');
+const petsRouter = require('./routes/api/pets');
 
 const app = express();
 
@@ -32,7 +32,7 @@ app.use(express.json());
 
 app.use(express.static('public'));
 app.use('/users', authRouter);
-app.use('/pets', authRouter);
+app.use('/pets', petsRouter);
 app.use('/api/contacts', contactsRouter);
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
