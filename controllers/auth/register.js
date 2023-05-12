@@ -30,7 +30,7 @@ const register = async (req, res, next) => {
         verifyPet(newUser._id.toString());
 
         const token = jwt.sign({ id: newUser._id }, SECRET_KEY, {
-            expiresIn: '18h',
+            expiresIn: process.env.JWT_EXPIRES_IN,
         });
         await User.findByIdAndUpdate(newUser._id, { token });
 
