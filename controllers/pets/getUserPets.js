@@ -6,7 +6,6 @@ const getUserPets = async (req, res, next) => {
     try {
         const userId = req.user._id;
         const user = await User.findById(userId).select('-_id -password -token');
-        console.log(user);
         const result = await Pet.find({ owner: userId });
 
         if (result.length === 0) {
