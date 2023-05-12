@@ -19,6 +19,15 @@ const userSchema = new Schema(
             match: emailRegexp,
             unique: true,
         },
+        birthday: {
+            type: Date,
+        },
+        phone: {
+            type: String,
+        },
+        city: {
+            type: String,
+        },
         token: {
             type: String,
             default: null,
