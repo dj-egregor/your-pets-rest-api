@@ -2,11 +2,9 @@ const express = require('express');
 
 const { notices: ctrl } = require('../../controllers');
 // const validation = require('../../middlewares/validation');
-<<<<<<< Updated upstream
+
 const authenticate = require('../../middlewares/authenticate');
-=======
-// const authenticate = require('../../middlewares/authenticate');
->>>>>>> Stashed changes
+
 // const { updateStatusNoticeSchema } = require('../../schemas/notices');
 
 const router = express();
