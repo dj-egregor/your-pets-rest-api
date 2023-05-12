@@ -35,7 +35,6 @@ const userSchema = new Schema(
         avatarURL: {
             type: String,
         },
-
         favorite: {
             type: Schema.Types.ObjectId,
             ref: 'notice',

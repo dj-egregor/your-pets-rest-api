@@ -1,6 +1,5 @@
 const { NotFound } = require('http-errors');
 const { User } = require('../../models/user');
-const Notice = require('../../models/notice');
 
 const removeUserNoticeById = async (req, res, next) => {
     try {
@@ -12,7 +11,11 @@ const removeUserNoticeById = async (req, res, next) => {
             throw new NotFound(`Not found user with id: ${userId}`);
         }
 
-        const result = await Notice.findByIdAndRemove(noticeId, userId);
+        const result = await User.findByIdAndUpdate(
+            userId,
+            { $pull: { favorite: noticeId } },
+            { new: true }
+        ).populate('favorite');
 
         if (!result) {
             throw new NotFound(`Notice with id=${noticeId} not found`);
