@@ -1,14 +1,25 @@
 const { NotFound } = require('http-errors');
-const Notice = require('../../models/notice');
+const { User } = require('../../models/user');
+// const Notice = require('../../models/notice');
 
 const getFavoritesNoticesByUser = async (req, res, next) => {
     try {
-        const { userId } = req.params;
-        const result = await Notice.find({ favorites: userId });
+        const { _id: userId } = req.user;
 
-        if (!result) {
-            throw new NotFound('Not found');
-        }
+        const result = await User.findById(userId).populate('favorite');
+
+        console.log(result);
+
+        // if (!result) {
+        //     throw new NotFound('Not found');
+        // }
+
+        // const noticeUser = await User.findById(userId)
+        //     .populate({
+        //         path: 'notice',
+        //         model: Notice,
+        //     })
+        //     .exec();
 
         res.status(200).json({
             status: 'success',

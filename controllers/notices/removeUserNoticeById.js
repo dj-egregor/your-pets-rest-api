@@ -1,7 +1,8 @@
 const { NotFound } = require('http-errors');
 const { User } = require('../../models/user');
+const Notice = require('../../models/notice');
 
-const updateStatusNotice = async (req, res, next) => {
+const removeUserNoticeById = async (req, res, next) => {
     try {
         const { _id: userId } = req.user;
         const { noticeId } = req.params;
@@ -11,16 +12,15 @@ const updateStatusNotice = async (req, res, next) => {
             throw new NotFound(`Not found user with id: ${userId}`);
         }
 
-        // нужна проверка на уже наличие такого об'явления или нет?
+        const result = await Notice.findByIdAndRemove(noticeId, userId);
 
-        const result = await User.findByIdAndUpdate(
-            userId,
-            { $push: { favorites: noticeId } },
-            { new: true }
-        ).populate('favorite');
+        if (!result) {
+            throw new NotFound(`Notice with id=${noticeId} not found`);
+        }
 
         res.status(200).json({
             status: 'success',
+            message: 'notice deleted',
             code: 200,
             data: { result },
         });
@@ -29,4 +29,4 @@ const updateStatusNotice = async (req, res, next) => {
     }
 };
 
-module.exports = updateStatusNotice;
+module.exports = removeUserNoticeById;

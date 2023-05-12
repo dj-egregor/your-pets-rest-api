@@ -34,9 +34,9 @@ const userSchema = new Schema(
             type: String,
             required: [true, 'Verify token is required'],
         },
-        favoriteNotices: {
+        favorite: {
             type: Schema.Types.ObjectId,
-            ref: 'notices',
+            ref: 'notice',
         },
     },
     { versionKey: false }
