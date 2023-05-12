@@ -5,14 +5,6 @@ const jwt = require('jsonwebtoken');
 const gravatar = require('gravatar');
 
 const { SECRET_KEY } = process.env;
-// const { nanoid } = require('nanoid');
-
-// const { sendEmail } = require('../../helpers/');
-
-// const BASE_URL = process.env.BASE_URL || 'http://localhost';
-// const PORT = process.env.PORT || 3000;
-
-// const url = `${BASE_URL}:${PORT}`;
 
 const verifyPet = require('../../helpers/verifyPet');
 const { User } = require('../../models/user');
