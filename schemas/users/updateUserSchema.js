@@ -3,7 +3,7 @@ const Joi = require('joi');
 const updateUserSchema = Joi.object({
     name: Joi.string()
         .min(2)
-        .max(100)
+        .max(16)
         .pattern(/^[a-zA-Zа-яА-Я' -]+$/)
         .trim(),
 

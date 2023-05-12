@@ -4,6 +4,7 @@ const Pet = require('../../models/pet');
 const removePet = async (req, res, next) => {
     try {
         const { petId } = req.params;
+        console.log('********', petId);
         const deletedPet = await Pet.findOneAndDelete({
             _id: petId,
             owner: req.user._id,
