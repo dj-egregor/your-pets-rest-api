@@ -13,6 +13,8 @@ const authenticate = require('../../middlewares/authenticate');
 
 const router = express.Router();
 
+router.post('/refresh-token', authenticate, ctrl.refreshToken);
+
 router.post('/register', validation.validate(registerSchema), ctrl.register);
 
 router.post('/login', validation.validate(loginSchema), ctrl.login);
