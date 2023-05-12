@@ -15,7 +15,7 @@ const updateStatusNotice = async (req, res, next) => {
 
         const result = await User.findByIdAndUpdate(
             userId,
-            { $push: { favorites: noticeId } },
+            { $push: { favorite: noticeId } },
             { new: true }
         ).populate('favorite');
 
