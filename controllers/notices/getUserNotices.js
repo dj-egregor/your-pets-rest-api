@@ -1,15 +1,20 @@
 const { NotFound } = require('http-errors');
 const Notice = require('../../models/notice');
 
-const createNoticeByCategory = async (req, res, next) => {
+const getUserNotices = async (req, res, next) => {
     try {
         const { _id: owner } = req.user;
-        const result = await Notice.create({ ...req.body, owner });
+        const { page = 1, limit = 12 } = req.query;
+        const skip = (page - 1) * limit;
+
+        const result = await Notice.find({ owner })
+            .populate('owner', 'name email phone')
+            .skip(skip)
+            .limit(limit);
 
         if (!result) {
             throw new NotFound('Not found');
         }
-
         res.status(201).json({
             status: 'success',
             code: 201,
@@ -20,4 +25,4 @@ const createNoticeByCategory = async (req, res, next) => {
     }
 };
 
-module.exports = createNoticeByCategory;
+module.exports = getUserNotices;
