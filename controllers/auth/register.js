@@ -2,14 +2,14 @@ const bcrypt = require('bcrypt');
 const { Conflict } = require('http-errors');
 
 const gravatar = require('gravatar');
-const { nanoid } = require('nanoid');
+// const { nanoid } = require('nanoid');
 
-const { sendEmail } = require('../../helpers/');
+// const { sendEmail } = require('../../helpers/');
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost';
-const PORT = process.env.PORT || 3000;
+// const BASE_URL = process.env.BASE_URL || 'http://localhost';
+// const PORT = process.env.PORT || 3000;
 
-const url = `${BASE_URL}:${PORT}`;
+// const url = `${BASE_URL}:${PORT}`;
 
 const verifyPet = require('../../helpers/verifyPet');
 const { User } = require('../../models/user');
@@ -25,21 +25,21 @@ const register = async (req, res, next) => {
 
         const avatarURL = gravatar.url(email); //, { protocol: 'https', s: '100',  }
         const hashPassword = await bcrypt.hash(password, 10);
-        const verificationToken = nanoid();
+        // const verificationToken = nanoid();
         const newUser = await User.create({
             ...req.body,
             password: hashPassword,
             avatarURL,
-            verificationToken,
+            // verificationToken,
         });
         verifyPet(newUser._id.toString());
-        const verifyEmail = {
-            to: email,
-            subject: 'Verify email',
-            html: `<a target="_blank" href="${url}/users/verify/${verificationToken}">Click to verify your email</a>`,
-        };
+        // const verifyEmail = {
+        //     to: email,
+        //     subject: 'Verify email',
+        //     html: `<a target="_blank" href="${url}/users/verify/${verificationToken}">Click to verify your email</a>`,
+        // };
 
-        await sendEmail(verifyEmail);
+        // await sendEmail(verifyEmail);
 
         res.status(201).json({
             user: {
