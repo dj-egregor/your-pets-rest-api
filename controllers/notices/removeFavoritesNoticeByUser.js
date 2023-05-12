@@ -1,11 +1,22 @@
 const { NotFound } = require('http-errors');
-const Notice = require('../../models/notice');
+const { User } = require('../../models/user');
+// const Notice = require('../../models/notice');
 
 const removeFavoritesNoticeByUser = async (req, res, next) => {
     try {
+        const { _id: userId } = req.user;
         const { noticeId } = req.params;
-        const { _id: owner } = req.user;
-        const result = await Notice.findByIdAndRemove(noticeId, owner);
+
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new NotFound(`Not found user with id: ${userId}`);
+        }
+
+        const result = await User.findByIdAndUpdate(
+            userId,
+            { $pull: { favorite: noticeId } },
+            { new: true }
+        ).populate('favorite');
 
         if (!result) {
             throw new NotFound('Not found');

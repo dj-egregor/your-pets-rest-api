@@ -35,7 +35,7 @@ app.use(express.static('public'));
 app.use('/users', authRouter);
 app.use('/pets', authRouter);
 app.use('/api/contacts', contactsRouter);
-app.use('/api/notices', noticesRouter);
+app.use('/notices', noticesRouter);
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
