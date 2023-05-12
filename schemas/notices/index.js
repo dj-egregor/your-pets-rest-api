@@ -1,5 +1,5 @@
-const updateStatusNoticeSchema = require('./updateStatusNotice');
+const addNoticeSchema = require('./addNotices');
 
 module.exports = {
-    updateStatusNoticeSchema,
+    addNoticeSchema,
 };
