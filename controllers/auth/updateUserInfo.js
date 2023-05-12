@@ -2,7 +2,7 @@ const { NotFound } = require('http-errors');
 
 const { User } = require('../../models/user');
 
-const updateSubscription = async (req, res, next) => {
+const updateUserInfo = async (req, res, next) => {
     try {
         const { _id } = req.user;
 
@@ -19,4 +19,4 @@ const updateSubscription = async (req, res, next) => {
     }
 };
 
-module.exports = updateSubscription;
+module.exports = updateUserInfo;

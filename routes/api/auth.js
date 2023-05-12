@@ -169,7 +169,7 @@ router.get('/current', authenticate, ctrl.getCurrent);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/UpdateSubscription'
+ *             $ref: '#/components/schemas/updateUserInfo'
  *     responses:
  *       200:
  *         description: OK
@@ -182,7 +182,7 @@ router.patch(
     '/',
     authenticate,
     validation.validate(updateUserSchema),
-    ctrl.updateSubscription
+    ctrl.updateUserInfo
 );
 
 /**
