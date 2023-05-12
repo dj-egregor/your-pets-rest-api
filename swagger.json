@@ -7,7 +7,10 @@
     },
     "consumes": ["application/json"],
     "produces": ["application/json"],
-    "servers": [{ "url": "http://localhost:3001" }],
+    "servers": [
+        { "url": "http://localhost:3001" },
+        { "url": "https://your-pets-rest-api.onrender.com" }
+    ],
     "tags": [
         {
             "name": "Auth",
@@ -102,21 +105,15 @@
         "/users/logout": {
             "post": {
                 "tags": ["Auth"],
-                "summary": "User logout",
+                "summary": "User log out",
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "parameters": [ {
-                    "in": "header",
-                    "required": true,
-                    "name": "Authorization",
-                    "description": "The token issued to the current user.",
-                    "schema": {
-                        "type": "string"
-                    }
-                }],
+                "parameters": [
+                    
+                ],
                 "responses": {
                     "204": {
                         "description": "Successful operation",
@@ -124,6 +121,117 @@
                     },
                     "401": {
                         "description": "Not authorized",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/notices/search/{category}": {
+            "get": {
+                "tags": ["Notices"],
+                "summary": "Search for notices by category and title",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "category",
+                        "description": "The category to search for notices",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["sell", "in good hands", "lost-found"]
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "searchWords ",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Title of the notice",
+                        "example": "my"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticesByTitleResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "There are no notices for this request",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/notices/category/{category}": {
+            "get": {
+                "tags": ["Notices"],
+                "summary": "Search for notices by category",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "category",
+                        "description": "The category to search for notices",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["sell", "in good hands", "lost-found"]
+                        },
+                        "example":"in good hands"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticesByCategoryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "There are no notices for this request",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/notices/notice/{noticeId}": {
+            "get": {
+                "tags": ["Notices"],
+                "summary": "Get notice by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "noticeId",
+                        "description": "Notice id",
+                        "required": true,
+                        "type": "string",
+                        "example":"645cd2bb1915ca1c3dd740ba"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticesByIdResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Notice not found",
                         "content": {}
                     }
                 }
@@ -206,6 +314,204 @@
                         "maxLength": 16,
                         "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)",
                         "example": "Qwert123"
+                    }
+                }
+            },
+            "NoticesByTitleResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": [
+                        "title",
+                        "category",
+                        "name",
+                        "birthday",
+                        "breed",
+                        "place",
+                        "sex",
+                        "avatarURL",
+                        "comments"
+                    ],
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "notice title"
+                        },
+                        "category": {
+                            "type": "string",
+                            "enum": ["sell", "in good hands", "lost-found"],
+                            "description": "Category for notice"
+                        },
+                        "price": {
+                            "type": "string",
+                            "example": "1",
+                            "description": "'Price must be higher than 0'"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "Pet name"
+                        },
+                        "birthday": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "breed": {
+                            "type": "string",
+                            "description": "Pet breed"
+                        },
+                        "place": {
+                            "type": "string",
+                            "description": "Set place"
+                        },
+                        "sex": {
+                            "type": "string",
+                            "enum": ["male", "female"],
+                            "description": "pet gender"
+                        },
+                        "comments": {
+                            "type": "string"
+                        },
+                        "owner": {
+                            "type": "string"
+                        },
+                        "favorite": {
+                            "type": "boolean"
+                        },
+                        "avatarURL": {
+                            "type": "string",
+                            "description": "URL to pet's avatar image"
+                        }
+                    }
+                }
+            },
+            "NoticesByCategoryResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": [
+                        "title",
+                        "category",
+                        "name",
+                        "birthday",
+                        "breed",
+                        "place",
+                        "sex",
+                        "avatarURL",
+                        "comments"
+                    ],
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "description": "notice title"
+                        },
+                        "category": {
+                            "type": "string",
+                            "enum": ["sell", "in good hands", "lost-found"],
+                            "description": "Category for notice"
+                        },
+                        "price": {
+                            "type": "string",
+                            "example": "1",
+                            "description": "'Price must be higher than 0'"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "Pet name"
+                        },
+                        "birthday": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "breed": {
+                            "type": "string",
+                            "description": "Pet breed"
+                        },
+                        "place": {
+                            "type": "string",
+                            "description": "Set place"
+                        },
+                        "sex": {
+                            "type": "string",
+                            "enum": ["male", "female"],
+                            "description": "pet gender"
+                        },
+                        "comments": {
+                            "type": "string"
+                        },
+                        "owner": {
+                            "type": "string"
+                        },
+                        "favorite": {
+                            "type": "boolean"
+                        },
+                        "avatarURL": {
+                            "type": "string",
+                            "description": "URL to pet's avatar image"
+                        }
+                    }
+                }
+            },
+            "NoticesByIdResponse":{
+                "type": "object",
+                "required": [
+                    "title",
+                    "category",
+                    "name",
+                    "birthday",
+                    "breed",
+                    "place",
+                    "sex",
+                    "avatarURL",
+                    "comments"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "notice title"
+                    },
+                    "category": {
+                        "type": "string",
+                        "enum": ["sell", "in good hands", "lost-found"],
+                        "description": "Category for notice"
+                    },
+                    "price": {
+                        "type": "string",
+                        "example": "1",
+                        "description": "'Price must be higher than 0'"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Pet name"
+                    },
+                    "birthday": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "breed": {
+                        "type": "string",
+                        "description": "Pet breed"
+                    },
+                    "place": {
+                        "type": "string",
+                        "description": "Set place"
+                    },
+                    "sex": {
+                        "type": "string",
+                        "enum": ["male", "female"],
+                        "description": "pet gender"
+                    },
+                    "comments": {
+                        "type": "string"
+                    },
+                    "_id": {
+                        "type": "string"
+                    },
+                    "favorite": {
+                        "type": "boolean"
+                    },
+                    "avatarURL": {
+                        "type": "string",
+                        "description": "URL to pet's avatar image"
                     }
                 }
             },
