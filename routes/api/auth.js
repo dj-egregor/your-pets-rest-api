@@ -62,60 +62,6 @@ router.post('/login', validation.validate(loginSchema), ctrl.login);
 
 /**
  * @swagger
- * /api/users/verify/{verificationToken}:
- *   get:
- *     summary: Verify user's email
- *     tags:
- *       - Users
- *     parameters:
- *       - in: path
- *         name: verificationToken
- *         required: true
- *         schema:
- *           type: string
- *         description: Verification token
- *     responses:
- *       200:
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- */
-router.get('/verify/:verificationToken', ctrl.verifyEmail);
-
-/**
- * @swagger
- * /api/users/verify:
- *   post:
- *     summary: Resend email verification link
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Email'
- *     responses:
- *       200:
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- */
-router.post(
-    '/verify',
-    validation.validate(emailSchema),
-    ctrl.resendVerifyEmail
-);
-
-/**
- * @swagger
  * /api/users/logout:
  *   post:
  *     summary: Logout user and revoke access token

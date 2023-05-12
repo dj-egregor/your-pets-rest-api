@@ -36,13 +36,6 @@ const register = async (req, res, next) => {
             // verificationToken,
         });
         verifyPet(newUser._id.toString());
-        // const verifyEmail = {
-        //     to: email,
-        //     subject: 'Verify email',
-        //     html: `<a target="_blank" href="${url}/users/verify/${verificationToken}">Click to verify your email</a>`,
-        // };
-
-        // await sendEmail(verifyEmail);
 
         const token = jwt.sign({ id: newUser._id }, SECRET_KEY, {
             expiresIn: '18h',
