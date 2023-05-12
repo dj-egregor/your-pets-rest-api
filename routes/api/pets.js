@@ -10,12 +10,7 @@ const router = express();
 
 router.get('/', authenticate, ctrl.getUserPets);
 
-router.post(
-    '/',
-    authenticate,
-    validation.validate(addPetSchema),
-    ctrl.addPet
-);
+router.post('/', authenticate, validation.validate(addPetSchema), ctrl.addPet);
 
 router.delete('/:petId', authenticate, ctrl.removePet);
 

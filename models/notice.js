@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const { handleMongooseError } = require('../helpers/');
 
 const noticeSchema = new Schema(
     {
@@ -13,36 +14,41 @@ const noticeSchema = new Schema(
         },
         price: {
             type: String,
+            min: [1, 'Price must be higher than 0'],
         },
         name: {
             type: String,
-            required: [true, 'Set name for pet'],
+            required: [true, 'Set name for notice'],
         },
         birthday: {
             type: Date,
-            required: true,
+            required: [true, 'Set birthday for notice'],
         },
         breed: {
             type: String,
-            required: true,
+            required: [true, 'Set breed for notice'],
         },
         place: {
             type: String,
-            required: true,
+            required: [true, 'Set place for notice'],
         },
         sex: {
             type: String,
             enum: ['male', 'female'],
-            required: true,
+            required: [true, 'Set sex for notice'],
         },
         comments: {
             type: String,
-            required: true,
+            required: [true, 'Set comment for notice'],
         },
         owner: {
             type: Schema.Types.ObjectId,
             ref: 'user',
             required: true,
+        },
+        avatarURL: {
+            type: String,
+            default: null,
         },
         favorite: {
             type: Boolean,
@@ -51,6 +57,8 @@ const noticeSchema = new Schema(
     },
     { versionKey: false }
 );
+
+noticeSchema.post('save', handleMongooseError);
 
 const Notice = model('notice', noticeSchema);
 
