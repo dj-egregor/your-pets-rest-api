@@ -18,6 +18,8 @@ const noticeSchema = new Schema(
         },
         name: {
             type: String,
+            minLength: 2,
+            maxLength: 16,
             required: [true, 'Set name for notice'],
         },
         birthday: {
@@ -26,6 +28,8 @@ const noticeSchema = new Schema(
         },
         breed: {
             type: String,
+            minLength: 2,
+            maxLength: 16,
             required: [true, 'Set breed for notice'],
         },
         place: {
@@ -39,6 +43,8 @@ const noticeSchema = new Schema(
         },
         comments: {
             type: String,
+            minLength: 8,
+            maxLength: 120,
             required: [true, 'Set comment for notice'],
         },
         owner: {
@@ -46,7 +52,7 @@ const noticeSchema = new Schema(
             ref: 'user',
             required: true,
         },
-        avatarURL: {
+        photoURL: {
             type: String,
             default: null,
         },

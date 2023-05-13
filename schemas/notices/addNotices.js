@@ -14,13 +14,13 @@ const addNoticeSchema = Joi.object({
     price: Joi.string().min(1).messages({
         'number.min': 'Price must be higher than 0',
     }),
-    name: Joi.string().required().messages({
+    name: Joi.string().required().min(2).max(16).messages({
         'any.required': 'Set name for notice',
     }),
     birthday: Joi.date().required().messages({
         'any.required': 'Set birthday for notice',
     }),
-    breed: Joi.string().required().messages({
+    breed: Joi.string().required().min(2).max(16).messages({
         'any.required': 'Set breed for notice',
     }),
     place: Joi.string().required().messages({
@@ -30,7 +30,7 @@ const addNoticeSchema = Joi.object({
         'any.required': 'Set sex for notice',
         'any.only': 'Sex is invalid',
     }),
-    comments: Joi.string().required().messages({
+    comments: Joi.string().required().min(8).max(120).messages({
         'any.required': 'Set comment for notice',
     }),
     favorite: Joi.bool().default(false),
