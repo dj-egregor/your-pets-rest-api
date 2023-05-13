@@ -5,7 +5,7 @@ const addNoticeSchema = Joi.object({
         'any.required': 'Set title for notice',
     }),
     category: Joi.string()
-        .valid('sell', 'lost-found', 'in good hands')
+        .valid('sell', 'lost-found', 'in-good-hands')
         .required()
         .messages({
             'any.required': 'Set category for notice',
