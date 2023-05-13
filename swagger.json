@@ -44,7 +44,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Successful operation",
+                        "description": "User registered",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -82,7 +82,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "User logined successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -111,17 +111,49 @@
                         "Bearer": []
                     }
                 ],
-                "parameters": [
-                    
-                ],
+                "parameters": [],
                 "responses": {
                     "204": {
-                        "description": "Successful operation",
+                        "description": "User successfully logged out",
                         "content": {}
                     },
                     "401": {
                         "description": "Not authorized",
                         "content": {}
+                    }
+                }
+            }
+        },
+        "/users": {
+            "patch": {
+                "tags": ["Auth"],
+                "summary": "Update user info",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "required": true,
+                        "name": "Authorization",
+                        "description": "The token issued to the current user.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -184,7 +216,7 @@
                             "type": "string",
                             "enum": ["sell", "in good hands", "lost-found"]
                         },
-                        "example":"in good hands"
+                        "example": "in good hands"
                     }
                 ],
                 "responses": {
@@ -216,7 +248,7 @@
                         "description": "Notice id",
                         "required": true,
                         "type": "string",
-                        "example":"645cd2bb1915ca1c3dd740ba"
+                        "example": "645cd2bb1915ca1c3dd740ba"
                     }
                 ],
                 "responses": {
@@ -267,10 +299,10 @@
                         "description": "User's email",
                         "format": "email"
                     },
-                    "userId": {
+                    "token": {
                         "type": "string",
-                        "description": "User's id",
-                        "example": "32143232436545474"
+                        "description": "User's token",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NWRlMTIzNTVlNWM4MDM0ODQ0Y2Q0MCIsImlhdCI6MTY4Mzg3NzgyNywiZXhwIjoxNjgzOTQyNjI3fQ.Cl7kfx9Tm-125ffgMKQGOzR9WhTH_dYET1B75hFjZyk"
                     }
                 }
             },
@@ -306,14 +338,46 @@
                         "type": "string",
                         "description": "User's email",
                         "format": "email"
-                    },
-                    "password": {
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "_id": {
                         "type": "string",
-                        "description": "User's password",
-                        "minLength": 8,
-                        "maxLength": 16,
-                        "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)",
-                        "example": "Qwert123"
+                        "example": "645cd2bb1915ca1c3dd740bc",
+                        "description": "User id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Helen",
+                        "description": "Username"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "description": "User email"
+                    },
+                    "birthday": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "User birthday"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "066-123-45-67",
+                        "description": "User phone number"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "Lviv",
+                        "description": "User's city of residence"
+                    },
+                    "avatarURL": {
+                        "type": "string",
+                        "example": "https://example.com",
+                        "description": "User's avatar URL"
                     }
                 }
             },
@@ -451,7 +515,7 @@
                     }
                 }
             },
-            "NoticesByIdResponse":{
+            "NoticesByIdResponse": {
                 "type": "object",
                 "required": [
                     "title",
