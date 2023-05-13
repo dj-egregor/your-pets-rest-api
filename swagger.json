@@ -133,17 +133,7 @@
                         "Bearer": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "required": true,
-                        "name": "Authorization",
-                        "description": "The token issued to the current user.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -154,6 +144,14 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Not authorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
                     }
                 }
             }
