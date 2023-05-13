@@ -22,7 +22,7 @@
         },
         {
             "name": "Pets",
-            "description": "Pats endpoints"
+            "description": "Pets endpoints"
         }
     ],
     "paths": {
@@ -262,6 +262,74 @@
                     },
                     "404": {
                         "description": "Notice not found",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/pets": {
+            "post": {
+                "tags": ["Pets"],
+                "summary": "Add a new pet",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Create a new pet",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PetRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pet added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PetResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/pets/{petId}": {
+            "delete": {
+                "tags": ["Pets"],
+                "summary": "Delete pet",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "petId",
+                        "description": "pet id",
+                        "type": "string",
+                        "example":"645cd2bb1915ca1c3dd740bc",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The pet was successfully deleted"
+                    },
+                    "401": {
+                        "description": "Not authorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Pet not found",
                         "content": {}
                     }
                 }
@@ -582,6 +650,73 @@
                     "type": "http",
                     "scheme": "bearer",
                     "bearerFormat": "JWT"
+                }
+            },
+            "PetRequest": {
+                "type": "object",
+                "required": ["name", "birthday"],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Dana",
+                        "description": "Pet name"
+                    },
+                    "comments": {
+                        "type": "string",
+                        "example": "Cute dogy",
+                        "description": "comments"
+                    },
+                    "birthday": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Pet birthday"
+                    },
+                    "breed": {
+                        "type": "string",
+                        "example": "Bichon",
+                        "description": "Pet's breed"
+                    },
+                    "photoURL": {
+                        "type": "string",
+                        "example": "https://example.com",
+                        "description": "Pet photo URL"
+                    }
+                }
+            },
+            "PetResponse": {
+                "type": "object",
+                "required": ["name", "birthday", "_id"],
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "example": "645cd2bb1915ca1c3dd740bc",
+                        "description": "Pet id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Helen",
+                        "description": "Pet name"
+                    },
+                    "comments": {
+                        "type": "string",
+                        "example": "Cute dogy",
+                        "description": "comments"
+                    },
+                    "birthday": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Pet birthday"
+                    },
+                    "breed": {
+                        "type": "string",
+                        "example": "Bichon",
+                        "description": "Pet's breed"
+                    },
+                    "photoURL": {
+                        "type": "string",
+                        "example": "https://example.com",
+                        "description": "Pet photo URL"
+                    }
                 }
             }
         }
