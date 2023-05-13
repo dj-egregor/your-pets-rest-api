@@ -46,7 +46,7 @@ const noticeSchema = new Schema(
             ref: 'user',
             required: true,
         },
-        avatarURL: {
+        photoURL: {
             type: String,
             default: null,
         },
