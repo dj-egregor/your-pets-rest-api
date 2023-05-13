@@ -188,7 +188,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NoticesByTitleResponse"
+                                    "$ref": "#/components/schemas/NoticesArrayResponse"
                                 }
                             }
                         }
@@ -223,7 +223,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NoticesByCategoryResponse"
+                                    "$ref": "#/components/schemas/NoticesArrayResponse"
                                 }
                             }
                         }
@@ -267,11 +267,57 @@
                 }
             }
         },
+        "/notices/favorites/{noticeId}": {
+            "post": {
+                "tags": ["Notices"],
+                "summary": "Add notice to favorites  by id",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "noticeId",
+                        "description": "Notice id",
+                        "required": true,
+                        "type": "string",
+                        "example": "645cd2bb1915ca1c3dd740ba"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticesArrayResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User  not found",
+                        "content": {}
+                    }
+                }
+            }
+        },
         "/pets": {
             "post": {
                 "tags": ["Pets"],
                 "summary": "Add a new pet",
                 "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "requestBody": {
                     "description": "Create a new pet",
                     "required": true,
@@ -295,7 +341,7 @@
                         }
                     },
                     "401": {
-                        "description": "Not authorized",
+                        "description": "User not authorized",
                         "content": {}
                     }
                 }
@@ -316,7 +362,7 @@
                         "name": "petId",
                         "description": "pet id",
                         "type": "string",
-                        "example":"645cd2bb1915ca1c3dd740bc",
+                        "example": "645cd2bb1915ca1c3dd740bc",
                         "required": true
                     }
                 ],
@@ -325,7 +371,7 @@
                         "description": "The pet was successfully deleted"
                     },
                     "401": {
-                        "description": "Not authorized",
+                        "description": "User not authorized",
                         "content": {}
                     },
                     "404": {
@@ -447,7 +493,7 @@
                     }
                 }
             },
-            "NoticesByTitleResponse": {
+            "NoticesArrayResponse": {
                 "type": "array",
                 "items": {
                     "type": "object",
@@ -459,13 +505,15 @@
                         "breed",
                         "place",
                         "sex",
-                        "avatarURL",
-                        "comments"
+                        "photoURL",
+                        "comments",
+                        "owner"
                     ],
                     "properties": {
                         "title": {
                             "type": "string",
-                            "description": "notice title"
+                            "description": "notice title",
+                            "example": "Colorful Parrot for Your Home"
                         },
                         "category": {
                             "type": "string",
@@ -474,12 +522,13 @@
                         },
                         "price": {
                             "type": "string",
-                            "example": "1",
+                            "example": "1500$",
                             "description": "'Price must be higher than 0'"
                         },
                         "name": {
                             "type": "string",
-                            "description": "Pet name"
+                            "description": "Pet name",
+                            "example": "Dana"
                         },
                         "birthday": {
                             "type": "string",
@@ -487,11 +536,13 @@
                         },
                         "breed": {
                             "type": "string",
-                            "description": "Pet breed"
+                            "description": "Pet breed",
+                            "example": "Bichon"
                         },
                         "place": {
                             "type": "string",
-                            "description": "Set place"
+                            "description": "Set place",
+                            "example": "Odesa"
                         },
                         "sex": {
                             "type": "string",
@@ -499,84 +550,28 @@
                             "description": "pet gender"
                         },
                         "comments": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "Cute dogy"
                         },
                         "owner": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "645cd2bb1915ca1c3dd740bc"
                         },
                         "favorite": {
-                            "type": "boolean"
+                            "type": "array",
+                            "description": "Array notice id",
+                            "example": [
+                                "611c1f57db916b209acdd1a1",
+                                "611c1f57db916b209acdd1a2"
+                            ],
+                            "items": { 
+                                "type":"string",
+                                "example": "611c1f57db916b209acdd1a1" }
                         },
-                        "avatarURL": {
+                        "photoURL": {
                             "type": "string",
-                            "description": "URL to pet's avatar image"
-                        }
-                    }
-                }
-            },
-            "NoticesByCategoryResponse": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "required": [
-                        "title",
-                        "category",
-                        "name",
-                        "birthday",
-                        "breed",
-                        "place",
-                        "sex",
-                        "avatarURL",
-                        "comments"
-                    ],
-                    "properties": {
-                        "title": {
-                            "type": "string",
-                            "description": "notice title"
-                        },
-                        "category": {
-                            "type": "string",
-                            "enum": ["sell", "in good hands", "lost-found"],
-                            "description": "Category for notice"
-                        },
-                        "price": {
-                            "type": "string",
-                            "example": "1",
-                            "description": "'Price must be higher than 0'"
-                        },
-                        "name": {
-                            "type": "string",
-                            "description": "Pet name"
-                        },
-                        "birthday": {
-                            "type": "string",
-                            "format": "date-time"
-                        },
-                        "breed": {
-                            "type": "string",
-                            "description": "Pet breed"
-                        },
-                        "place": {
-                            "type": "string",
-                            "description": "Set place"
-                        },
-                        "sex": {
-                            "type": "string",
-                            "enum": ["male", "female"],
-                            "description": "pet gender"
-                        },
-                        "comments": {
-                            "type": "string"
-                        },
-                        "owner": {
-                            "type": "string"
-                        },
-                        "favorite": {
-                            "type": "boolean"
-                        },
-                        "avatarURL": {
-                            "type": "string",
-                            "description": "URL to pet's avatar image"
+                            "description": "URL to pet's avatar image",
+                            "example": "https://example.com/photo.jpg"
                         }
                     }
                 }
@@ -591,13 +586,14 @@
                     "breed",
                     "place",
                     "sex",
-                    "avatarURL",
+                    "photoURL",
                     "comments"
                 ],
                 "properties": {
                     "title": {
                         "type": "string",
-                        "description": "notice title"
+                        "description": "notice title",
+                        "example": "Colorful Parrot for Your Home"
                     },
                     "category": {
                         "type": "string",
@@ -606,12 +602,13 @@
                     },
                     "price": {
                         "type": "string",
-                        "example": "1",
+                        "example": "1500$",
                         "description": "'Price must be higher than 0'"
                     },
                     "name": {
                         "type": "string",
-                        "description": "Pet name"
+                        "description": "Pet name",
+                        "example": "Dana"
                     },
                     "birthday": {
                         "type": "string",
@@ -619,11 +616,13 @@
                     },
                     "breed": {
                         "type": "string",
-                        "description": "Pet breed"
+                        "description": "Pet breed",
+                        "example": "Bichon"
                     },
                     "place": {
                         "type": "string",
-                        "description": "Set place"
+                        "description": "Set place",
+                        "example": "Odesa"
                     },
                     "sex": {
                         "type": "string",
@@ -631,17 +630,29 @@
                         "description": "pet gender"
                     },
                     "comments": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Cute dogy"
                     },
                     "_id": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "645cd2bb1915ca1c3dd740bc"
                     },
                     "favorite": {
-                        "type": "boolean"
+                        "type": "array",
+                        "description": "Array notice id",
+                        "example": [
+                            "611c1f57db916b209acdd1a1",
+                            "611c1f57db916b209acdd1a2"
+                        ],
+                        "items": {
+                            "type": "string",
+                            "example": "611c1f57db916b209acdd1a1"
+                        }
                     },
-                    "avatarURL": {
+                    "photoURL": {
                         "type": "string",
-                        "description": "URL to pet's avatar image"
+                        "description": "URL to pet's avatar image",
+                        "example": "https://example.com/photo.jpg"
                     }
                 }
             },
