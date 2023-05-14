@@ -86,34 +86,34 @@ describe('register controller', () => {
         });
     });
 
-    // describe('registration', () => {
-    //     let registeredUser;
+    describe('registration', () => {
+        let registeredUser;
 
-    //     it('return 409 if email is not unique', async () => {
-    //         const res = await request(app)
-    //             .post(registerRoute)
-    //             .send({ email: validUser.email, password: validUser.password });
+        it('return 409 if email is not unique', async () => {
+            const res = await request(app)
+                .post(registerRoute)
+                .send({ email: validUser.email, password: validUser.password });
 
-    //         expect(res.status).toEqual(409);
-    //     });
+            expect(res.status).toEqual(409);
+        });
 
-    //     it('return 201, and created user if body is valid, and email is unique', async () => {
-    //         const uniqueUser = {
-    //             email: 'test1@mail.com',
-    //             password: 'Admin123',
-    //         };
+        it('return 201, and created user if body is valid, and email is unique', async () => {
+            const uniqueUser = {
+                email: 'test1@mail.com',
+                password: 'AddPass123456',
+            };
 
-    //         const res = await request(app).post(registerRoute).send(uniqueUser);
+            const res = await request(app).post(registerRoute).send(uniqueUser);
 
-    //         expect(res.status).toEqual(201);
-    //         expect(res.body.user.email).toEqual(uniqueUser.email);
+            expect(res.status).toEqual(201);
+            expect(res.body.user.email).toEqual(uniqueUser.email);
 
-    //         registeredUser = res.body.user;
-    //     });
+            registeredUser = res.body.user;
+        });
 
-    //     afterAll(async () => {
-    //         // delete registered user from db
-    //         await User.findByIdAndDelete(registeredUser._id);
-    //     });
-    // });
+        afterAll(async () => {
+            // delete registered user from db
+            await User.findByIdAndDelete(registeredUser._id);
+        });
+    });
 });
