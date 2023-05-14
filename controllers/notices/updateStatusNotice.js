@@ -19,9 +19,7 @@ const updateStatusNotice = async (req, res, next) => {
             { new: true }
         ).populate('favorite');
 
-        res.status(201).json({
-            result,
-        });
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }

@@ -11,9 +11,7 @@ const getNoticeById = async (req, res, next) => {
             throw new NotFound(`Not found notice with id: ${noticeId}`);
         }
 
-        res.status(201).json({
-            result,
-        });
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }

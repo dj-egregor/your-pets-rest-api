@@ -9,9 +9,7 @@ const getFavoritesNoticesByUser = async (req, res, next) => {
             .populate('favorite')
             .select('favorite');
 
-        res.status(201).json({
-            result,
-        });
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }

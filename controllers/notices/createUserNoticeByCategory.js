@@ -17,9 +17,7 @@ const createUserNoticeByCategory = async (req, res, next) => {
             throw new NotFound('Not found');
         }
 
-        res.status(201).json({
-            result,
-        });
+        res.status(201).json(result);
     } catch (error) {
         next(error);
     }

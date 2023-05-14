@@ -13,9 +13,7 @@ const getNoticesByCategory = async (req, res, next) => {
             throw new NotFound(`There are no notices for this request`);
         }
 
-        res.status(201).json({
-            result,
-        });
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }
