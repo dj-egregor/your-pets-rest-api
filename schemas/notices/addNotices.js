@@ -33,7 +33,6 @@ const addNoticeSchema = Joi.object({
     comments: Joi.string().required().min(8).max(120).messages({
         'any.required': 'Set comment for notice',
     }),
-    favorite: Joi.bool().default(false),
     photoURL: Joi.binary()
         .max(3 * 1024 * 1024)
         .description('PetImage max 3mb'),
