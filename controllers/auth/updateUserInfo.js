@@ -8,7 +8,7 @@ const updateUserInfo = async (req, res, next) => {
 
         const result = await User.findByIdAndUpdate(_id, req.body, {
             new: true,
-        });
+        }).select('-password -token');
 
         if (!result) {
             throw new NotFound('Not found');
