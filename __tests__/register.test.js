@@ -47,7 +47,7 @@ describe('register controller', () => {
         describe('email validation', () => {
             it('return 400 unauthorized, if email is not provided', async () => {
                 const invalidData = { password: 'AddPass123456' };
-                // const res = await agent.post('/register').send({ /* тело запроса без email */ });
+
 
                 const res = await agent.post(registerRoute).send(invalidData);
                 expect(res.status).toEqual(400);
@@ -61,29 +61,29 @@ describe('register controller', () => {
             });
         });
 
-        // describe('password validation', () => {
-        //     it('return 400 unauthorized, if password is not provided', async () => {
-        //         const invalidData = { email: 'test@mail.com' };
-        //         const res = await request(app)
-        //             .post(registerRoute)
-        //             .send(invalidData);
+        describe('password validation', () => {
+            it('return 400 unauthorized, if password is not provided', async () => {
+                const invalidData = { email: 'test@mail.com' };
+                const res = await request(app)
+                    .post(registerRoute)
+                    .send(invalidData);
 
-        //         expect(res.status).toEqual(400);
-        //     });
+                expect(res.status).toEqual(400);
+            });
 
-        //     it('return 400 unauthorized, if password is not valid', async () => {
-        //         // at least 8 char, one number, one uppercase letter
-        //         const invalidData = {
-        //             email: 'test@mail.com',
-        //             password: 'admin',
-        //         };
-        //         const res = await request(app)
-        //             .post(registerRoute)
-        //             .send(invalidData);
+            it('return 400 unauthorized, if password is not valid', async () => {
 
-        //         expect(res.status).toEqual(400);
-        //     });
-        // });
+                const invalidData = {
+                    email: 'test@mail.com',
+                    password: 'admin',
+                };
+                const res = await request(app)
+                    .post(registerRoute)
+                    .send(invalidData);
+
+                expect(res.status).toEqual(400);
+            });
+        });
     });
 
     // describe('registration', () => {
