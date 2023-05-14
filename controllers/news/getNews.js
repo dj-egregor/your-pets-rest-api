@@ -11,7 +11,7 @@ const getNews = async (req, res, next) => {
         if (!result) {
             throw new NotFound(`There are no news`);
         }
-        res.status(200).json(result);
+        res.json(result);
     } catch (error) {
         next(error);
     }
