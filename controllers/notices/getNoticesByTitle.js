@@ -20,11 +20,7 @@ const getNoticesByTitle = async (req, res, next) => {
             throw new NotFound(`There are no notices for this request`);
         }
 
-        res.status(200).json({
-            status: 'success',
-            code: 200,
-            data: { result },
-        });
+        res.json(result);
     } catch (error) {
         next(error);
     }

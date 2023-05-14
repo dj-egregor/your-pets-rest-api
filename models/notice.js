@@ -56,10 +56,6 @@ const noticeSchema = new Schema(
             type: String,
             default: null,
         },
-        favorite: {
-            type: Boolean,
-            default: false,
-        },
     },
     { versionKey: false }
 );

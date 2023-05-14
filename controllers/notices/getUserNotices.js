@@ -15,11 +15,7 @@ const getUserNotices = async (req, res, next) => {
         if (!result) {
             throw new NotFound('Not found');
         }
-        res.status(201).json({
-            status: 'success',
-            code: 201,
-            data: { result },
-        });
+        res.json(result);
     } catch (error) {
         next(error);
     }
