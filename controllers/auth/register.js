@@ -18,14 +18,12 @@ const register = async (req, res, next) => {
             throw new Conflict('Email in use');
         }
 
-        const avatarURL = gravatar.url(email); //, { protocol: 'https', s: '100',  }
+        const avatarURL = gravatar.url(email);
         const hashPassword = await bcrypt.hash(password, 10);
-        // const verificationToken = nanoid();
         const newUser = await User.create({
             ...req.body,
             password: hashPassword,
             avatarURL,
-            // verificationToken,
         });
         verifyPet(newUser._id.toString());
 
