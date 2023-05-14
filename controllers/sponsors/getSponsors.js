@@ -11,10 +11,8 @@ const getSponsors = async (req, res, next) => {
         if (!result) {
             throw new NotFound(`There are no sponsors`);
         }
-        res.status(200).json({
-            status: 'success',
-            code: 200,
-            data: { result },
+        res.status(201).json({
+            result,
         });
     } catch (error) {
         next(error);

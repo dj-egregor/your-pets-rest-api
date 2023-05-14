@@ -22,10 +22,7 @@ const removeUserNoticeById = async (req, res, next) => {
         }
 
         res.status(200).json({
-            status: 'success',
             message: 'notice deleted',
-            code: 200,
-            data: { result },
         });
     } catch (error) {
         next(error);

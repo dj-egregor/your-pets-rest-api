@@ -1,4 +1,4 @@
-const { NotFound } = require('http-errors');
+// const { NotFound } = require('http-errors');
 const { User } = require('../../models/user');
 
 const getFavoritesNoticesByUser = async (req, res, next) => {
@@ -9,10 +9,8 @@ const getFavoritesNoticesByUser = async (req, res, next) => {
             .populate('favorite')
             .select('favorite');
 
-        res.status(200).json({
-            status: 'success',
-            code: 200,
-            data: { result },
+        res.status(201).json({
+            result,
         });
     } catch (error) {
         next(error);

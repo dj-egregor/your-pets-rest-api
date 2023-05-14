@@ -18,9 +18,7 @@ const createUserNoticeByCategory = async (req, res, next) => {
         }
 
         res.status(201).json({
-            status: 'success',
-            code: 201,
-            data: { result },
+            result,
         });
     } catch (error) {
         next(error);

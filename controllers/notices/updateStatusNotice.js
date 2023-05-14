@@ -19,10 +19,8 @@ const updateStatusNotice = async (req, res, next) => {
             { new: true }
         ).populate('favorite');
 
-        res.status(200).json({
-            status: 'success',
-            code: 200,
-            data: { result },
+        res.status(201).json({
+            result,
         });
     } catch (error) {
         next(error);
