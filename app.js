@@ -30,7 +30,7 @@ app.use('/notices', noticesRouter);
 app.use('/news', newsRouter);
 app.use('/sponsors', sponsorsRouter);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
