@@ -7,15 +7,26 @@ const getUserNotices = async (req, res, next) => {
         const { page = 1, limit = 12 } = req.query;
         const skip = (page - 1) * limit;
 
-        const result = await Notice.find({ owner })
-            .populate('owner', 'name email phone')
-            .skip(skip)
-            .limit(limit);
+        const [total, notices] = await Promise.all([
+            Notice.countDocuments({ owner }),
+            Notice.find({ owner })
+                .populate('owner', 'name email phone')
+                .skip(skip)
+                .limit(limit),
+        ]);
 
-        if (!result) {
+        if (!notices) {
             throw new NotFound('Not found');
         }
-        res.json(result);
+
+        const totalPages = Math.ceil(total / limit);
+        res.json({
+            notices,
+            total,
+            totalPages,
+            currentPage: parseInt(page),
+            limit: parseInt(limit),
+        });
     } catch (error) {
         next(error);
     }
