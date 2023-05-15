@@ -6,12 +6,24 @@ const getNews = async (req, res, next) => {
         const { page = 1, limit = 6 } = req.query;
         const skip = (page - 1) * limit;
 
-        const result = await News.find().skip(skip).limit(limit);
+        const [total, news] = await Promise.all([
+            News.countDocuments(),
+            News.find().skip(skip).limit(limit),
+        ]);
 
-        if (!result) {
+        if (!news) {
             throw new NotFound(`There are no news`);
         }
-        res.json(result);
+
+        const totalPages = Math.ceil(total / limit);
+
+        res.json({
+            news,
+            total,
+            totalPages,
+            currentPage: parseInt(page),
+            limit: parseInt(limit),
+        });
     } catch (error) {
         next(error);
     }

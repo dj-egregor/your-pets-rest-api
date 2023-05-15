@@ -6,12 +6,12 @@ const getSponsors = async (req, res, next) => {
         const { page = 1, limit = 6 } = req.query;
         const skip = (page - 1) * limit;
 
-        const result = await Sponsor.find().skip(skip).limit(limit);
+        const sponsors = await Sponsor.find().skip(skip).limit(limit);
 
-        if (!result) {
+        if (!sponsors) {
             throw new NotFound(`There are no sponsors`);
         }
-        res.json(result);
+        res.json(sponsors);
     } catch (error) {
         next(error);
     }

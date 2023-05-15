@@ -9,15 +9,23 @@ const getNewsByTitle = async (req, res, next) => {
         const searchWords = q.trim().split(' ');
         const regex = new RegExp(searchWords, 'i');
 
-        const result = await News.find({ title: regex })
-            .skip(skip)
-            .limit(limit);
+        const total = await News.countDocuments({ title: regex });
 
-        if (!result) {
+        const news = await News.find({ title: regex }).skip(skip).limit(limit);
+
+        if (!news) {
             throw new NotFound(`There are no news`);
         }
 
-        res.json(result);
+        const totalPages = Math.ceil(total / limit);
+
+        res.json({
+            news,
+            total,
+            totalPages,
+            currentPage: parseInt(page),
+            limit: parseInt(limit),
+        });
     } catch (error) {
         next(error);
     }
