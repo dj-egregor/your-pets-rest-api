@@ -5,6 +5,7 @@ const { notices: ctrl } = require('../../controllers');
 const validation = require('../../middlewares/validation');
 const isValidId = require('../../middlewares/isValidId');
 const authenticate = require('../../middlewares/authenticate');
+const upload = require('../../middlewares/upload');
 
 const { addNoticeSchema } = require('../../schemas/notices');
 
@@ -31,6 +32,7 @@ router.delete(
 router.post(
     '/user-notices/:category',
     authenticate,
+    upload.single('notice-image'),
     validation.validate(addNoticeSchema),
     ctrl.createUserNoticeByCategory
 );
