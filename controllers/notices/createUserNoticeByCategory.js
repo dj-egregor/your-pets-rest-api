@@ -6,18 +6,18 @@ const createUserNoticeByCategory = async (req, res, next) => {
         const { _id: owner } = req.user;
         const { category } = req.params;
 
-        const result = await Notice.create({
+        const notice = await Notice.create({
             ...req.body,
             owner,
             category,
             photoURL: req.file.path,
         });
 
-        if (!result) {
+        if (!notice) {
             throw new NotFound('Not found');
         }
 
-        res.status(201).json(result);
+        res.status(201).json(notice);
     } catch (error) {
         next(error);
     }

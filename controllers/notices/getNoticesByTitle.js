@@ -10,17 +10,29 @@ const getNoticesByTitle = async (req, res, next) => {
         const searchWords = q.trim().split(' ');
         const regex = new RegExp(searchWords, 'i');
 
-        const result = await Notice.find({
+        const total = await Notice.countDocuments({
+            $and: [{ category }, { title: regex }],
+        });
+
+        const notices = await Notice.find({
             $and: [{ category }, { title: regex }],
         })
             .skip(skip)
             .limit(limit);
 
-        if (result.length === 0) {
+        if (notices.length === 0) {
             throw new NotFound(`There are no notices for this request`);
         }
 
-        res.json(result);
+        const totalPages = Math.ceil(total / limit);
+
+        res.json({
+            notices,
+            total,
+            totalPages,
+            currentPage: parseInt(page),
+            limit: parseInt(limit),
+        });
     } catch (error) {
         next(error);
     }

@@ -1,15 +1,19 @@
-// const { NotFound } = require('http-errors');
+const { NotFound } = require('http-errors');
 const { User } = require('../../models/user');
 
 const getFavoritesNoticesByUser = async (req, res, next) => {
     try {
         const { _id: userId } = req.user;
 
-        const result = await User.findById(userId)
+        const notices = await User.findById(userId)
             .populate('favorite')
             .select('favorite');
 
-        res.json(result);
+        if (notices.length === 0) {
+            throw new NotFound(`There are no notices for this request`);
+        }
+
+        res.json(notices);
     } catch (error) {
         next(error);
     }

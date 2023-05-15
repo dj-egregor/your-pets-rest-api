@@ -7,13 +7,24 @@ const getNoticesByCategory = async (req, res, next) => {
         const { page = 1, limit = 12 } = req.query;
         const skip = (page - 1) * limit;
 
-        const result = await Notice.find({ category }).skip(skip).limit(limit);
+        const [total, notices] = await Promise.all([
+            Notice.countDocuments({ category }),
+            Notice.find({ category }).skip(skip).limit(limit),
+        ]);
 
-        if (!result) {
+        if (!notices) {
             throw new NotFound(`There are no notices for this request`);
         }
 
-        res.json(result);
+        const totalPages = Math.ceil(total / limit);
+
+        res.json({
+            notices,
+            total,
+            totalPages,
+            currentPage: parseInt(page),
+            limit: parseInt(limit),
+        });
     } catch (error) {
         next(error);
     }
