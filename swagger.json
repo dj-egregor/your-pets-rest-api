@@ -37,7 +37,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/RegistrationRequest"
+                                "$ref": "#/components/schemas/RegistrationLoginRequest"
                             }
                         }
                     }
@@ -75,7 +75,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
+                                "$ref": "#/components/schemas/RegistrationLoginRequest"
                             }
                         }
                     }
@@ -156,6 +156,63 @@
                 }
             }
         },
+        "users/avatars": {
+            "patch": {
+                "tags": ["Auth"],
+                "summary": "Update user's avatar",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "description": "User avatar",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The new avatar image to upload"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The logout operation was successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "avatarURL": {
+                                            "type": "string",
+                                            "description": "The URL of the updated avatar image",
+                                            "example":"avatars\\645e819f374fda194a78304b_DSC_7267.JPG"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Failed to resize image",
+                        "content": {}
+                    }
+                }
+            }
+        },
         "/notices/search/{category}": {
             "get": {
                 "tags": ["Notices"],
@@ -168,7 +225,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "enum": ["sell", "in good hands", "lost-found"]
+                            "enum": ["sell", "in-good-hands", "lost-found"]
                         }
                     },
                     {
@@ -212,7 +269,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "enum": ["sell", "in good hands", "lost-found"]
+                            "enum": ["sell", "in-good-hands", "lost-found"]
                         },
                         "example": "in good hands"
                     }
@@ -306,8 +363,208 @@
                         "content": {}
                     }
                 }
+            },
+            "delete": {
+                "tags": ["Notices"],
+                "summary": "Remove favorite notice by User",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "noticeId",
+                        "description": "Notice id",
+                        "required": true,
+                        "type": "string",
+                        "example": "645cd2bb1915ca1c3dd740ba"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notice deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticesByIdResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User  not found",
+                        "content": {}
+                    }
+                }
             }
         },
+        "/notices/favorites": {
+            "get": {
+                "tags": ["Notices"],
+                "summary": "Get favorites notices by User ",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticesArrayResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authorized",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/notices/user-notices/{category}": {
+            "post": {
+                "tags": ["Notices"],
+                "summary": "Create User notice by category",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "category",
+                        "description": "The category to create for notices",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["sell", "in-good-hands", "lost-found"]
+                        },
+                        "example": "in good hands"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticesByIdResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "There are no notices for this request",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/notices/user-notices": {
+            "get": {
+                "tags": ["Notices"],
+                "summary": "Get User notices",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page ",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "description": "Requested page number"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit ",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 12
+                        },
+                        "description": "Number of notices per page"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NoticesArrayResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User not authorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/notices/user-notices/{noticeId}": {
+            "delete": {
+                "tags": ["Notices"],
+                "summary": "remove User notice by id",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "noticeId",
+                        "description": "Notice id",
+                        "required": true,
+                        "type": "string",
+                        "example": "645cd2bb1915ca1c3dd740ba"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful notice removal",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "User not authorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {}
+                    }
+                }
+            }
+        },
+
         "/pets": {
             "post": {
                 "tags": ["Pets"],
@@ -384,7 +641,7 @@
     },
     "components": {
         "schemas": {
-            "RegistrationRequest": {
+            "RegistrationLoginRequest": {
                 "type": "object",
                 "required": ["email", "password"],
                 "properties": {
@@ -396,9 +653,9 @@
                     "password": {
                         "type": "string",
                         "description": "User's password",
-                        "minLength": 8,
+                        "minLength": 6,
                         "maxLength": 16,
-                        "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)",
+                        "pattern": "/^(?=.*[a-z])(?=.*[A-Z])(?=.*d).*$/",
                         "example": "Qwert123"
                     }
                 }
@@ -418,25 +675,7 @@
                     }
                 }
             },
-            "LoginRequest": {
-                "required": ["email", "password"],
-                "type": "object",
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "description": "User's email",
-                        "format": "email"
-                    },
-                    "password": {
-                        "type": "string",
-                        "description": "User's password",
-                        "minLength": 8,
-                        "maxLength": 16,
-                        "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)",
-                        "example": "Qwert123"
-                    }
-                }
-            },
+
             "LoginResponse": {
                 "required": ["token", "email", "password"],
                 "type": "object",
@@ -517,7 +756,7 @@
                         },
                         "category": {
                             "type": "string",
-                            "enum": ["sell", "in good hands", "lost-found"],
+                            "enum": ["sell", "in-good-hands", "lost-found"],
                             "description": "Category for notice"
                         },
                         "price": {
@@ -564,9 +803,10 @@
                                 "611c1f57db916b209acdd1a1",
                                 "611c1f57db916b209acdd1a2"
                             ],
-                            "items": { 
-                                "type":"string",
-                                "example": "611c1f57db916b209acdd1a1" }
+                            "items": {
+                                "type": "string",
+                                "example": "611c1f57db916b209acdd1a1"
+                            }
                         },
                         "photoURL": {
                             "type": "string",
@@ -597,7 +837,7 @@
                     },
                     "category": {
                         "type": "string",
-                        "enum": ["sell", "in good hands", "lost-found"],
+                        "enum": ["sell", "in-good-hands", "lost-found"],
                         "description": "Category for notice"
                     },
                     "price": {
@@ -656,13 +896,7 @@
                     }
                 }
             },
-            "securitySchemes": {
-                "Bearer": {
-                    "type": "http",
-                    "scheme": "bearer",
-                    "bearerFormat": "JWT"
-                }
-            },
+
             "PetRequest": {
                 "type": "object",
                 "required": ["name", "birthday"],
@@ -729,6 +963,13 @@
                         "description": "Pet photo URL"
                     }
                 }
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }
