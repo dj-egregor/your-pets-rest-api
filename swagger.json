@@ -111,15 +111,7 @@
                         "Bearer": []
                     }
                 ],
-                "parameters": [{
-                    "in": "header",
-                    "required": true,
-                    "name": "Authorization",
-                    "description": "The token issued to the current user.",
-                    "schema": {
-                        "type": "string"
-                    }
-                }],
+                "parameters": [],
                 "responses": {
                     "204": {
                         "description": "User successfully logged out",
@@ -175,7 +167,7 @@
                 }
             }
         },
-        "users/avatars": {
+        "/users/avatars": {
             "patch": {
                 "tags": ["Auth"],
                 "summary": "Update user's avatar",
@@ -205,7 +197,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "The logout operation was successful",
+                        "description": "Avatar successfully modified <br><br><b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>avatarURL</b> - string, the path to the uploaded user avatar",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -735,7 +727,7 @@
             },
             "UserResponse": {
                 "type": "object",
-                "required": ["_id", "email", "avatarURL", "favorite", "city","birthday","name","phone"],
+                "required": ["_id", "email", "avatarURL"],
                 "properties": {
                     "_id": {
                         "type": "string",
