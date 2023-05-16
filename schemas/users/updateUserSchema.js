@@ -18,6 +18,12 @@ const updateUserSchema = Joi.object({
         .max(100)
         .pattern(/^[a-zA-Zа-яА-Я]+(?:[\s-][a-zA-Zа-яА-Я]+)*$/)
         .trim(),
-});
+})
+    .min(1)
+    .options({
+        messages: {
+            'object.min': 'missing fields',
+        },
+    });
 
 module.exports = updateUserSchema;
