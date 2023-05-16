@@ -3,13 +3,15 @@ const News = require('../../models/news');
 
 const getNews = async (req, res, next) => {
     try {
-        const { page = 1, limit = 6 } = req.query;
+        const { page = 1, limit = 6, q = '' } = req.query;
         const skip = (page - 1) * limit;
 
-        const [total, news] = await Promise.all([
-            News.countDocuments(),
-            News.find().skip(skip).limit(limit),
-        ]);
+        const searchWords = q.trim().split(' ');
+        const regex = new RegExp(searchWords, 'i');
+
+        const total = await News.countDocuments({ title: regex });
+
+        const news = await News.find({ title: regex }).skip(skip).limit(limit);
 
         if (!news) {
             throw new NotFound(`There are no news`);
