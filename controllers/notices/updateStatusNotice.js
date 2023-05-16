@@ -11,15 +11,19 @@ const updateStatusNotice = async (req, res, next) => {
             throw new NotFound(`Not found user with id: ${userId}`);
         }
 
-        // нужна проверка на уже наличие такого об'явления или нет?
-
         const result = await User.findByIdAndUpdate(
             userId,
             { $push: { favorite: noticeId } },
             { new: true }
         ).populate('favorite');
 
-        res.json(result);
+        if (!result) {
+            throw new NotFound('Not found');
+        }
+
+        res.json({
+            messages: 'Notice add',
+        });
     } catch (error) {
         next(error);
     }
