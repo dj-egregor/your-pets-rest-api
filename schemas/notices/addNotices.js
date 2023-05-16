@@ -17,7 +17,7 @@ const addNoticeSchema = Joi.object({
     name: Joi.string().required().min(2).max(16).messages({
         'any.required': 'Set name for notice',
     }),
-    birthday: Joi.date().required().messages({
+    birthday: Joi.date().max('now').required().messages({
         'any.required': 'Set birthday for notice',
     }),
     breed: Joi.string().required().min(2).max(16).messages({
