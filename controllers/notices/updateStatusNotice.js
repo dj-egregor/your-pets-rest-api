@@ -11,6 +11,12 @@ const updateStatusNotice = async (req, res, next) => {
             throw new NotFound(`Not found user with id: ${userId}`);
         }
 
+        if (user.favorite.includes(noticeId)) {
+            throw new NotFound(
+                `Notice with id=${noticeId} is already in user's favorite list`
+            );
+        }
+
         const result = await User.findByIdAndUpdate(
             userId,
             { $push: { favorite: noticeId } },
