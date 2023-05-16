@@ -12,6 +12,12 @@ const removeFavoritesNoticeByUser = async (req, res, next) => {
             throw new NotFound(`Not found user with id: ${userId}`);
         }
 
+        if (!user.favorite.includes(noticeId)) {
+            throw new NotFound(
+                `Notice with id=${noticeId} is not in user's favorite list`
+            );
+        }
+
         const result = await User.findByIdAndUpdate(
             userId,
             { $pull: { favorite: noticeId } },
