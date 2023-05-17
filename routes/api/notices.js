@@ -32,7 +32,7 @@ router.delete(
 router.post(
     '/user-notices/:category',
     authenticate,
-    upload.single('notice-image'),
+    upload.single('photo'),
     validation.validate(addNoticeSchema),
     ctrl.createUserNoticeByCategory
 );

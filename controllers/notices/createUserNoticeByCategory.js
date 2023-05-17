@@ -1,5 +1,6 @@
 const { NotFound } = require('http-errors');
 const Notice = require('../../models/notice');
+const { v4: uuidv4 } = require('uuid');
 
 const path = require('path');
 const fs = require('fs/promises');
@@ -9,10 +10,12 @@ const resizeImage = require('../../utils/resizeImage/resizeImage');
 
 const createUserNoticeByCategory = async (req, res, next) => {
     try {
-        const { _id } = req.user;
         const { path: tempUpload, originalname } = req.file;
-        const filename = `${_id}_${originalname}`;
-        const resultUpload = path.join(noticesImgDir, filename);
+
+        const extension = path.extname(originalname);
+        const uniqueFilename = uuidv4() + extension;
+
+        const resultUpload = path.join(noticesImgDir, uniqueFilename);
 
         const resizeResult = await resizeImage(tempUpload);
         if (!resizeResult) {
@@ -20,7 +23,7 @@ const createUserNoticeByCategory = async (req, res, next) => {
         }
 
         await fs.rename(tempUpload, resultUpload);
-        const imageURL = path.join(folder, filename);
+        const imageURL = path.join(folder, uniqueFilename);
 
         const { _id: owner } = req.user;
         const { category } = req.params;
