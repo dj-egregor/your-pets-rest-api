@@ -230,9 +230,9 @@
                 "summary": "Search for notices by category and title",
                 "parameters": [
                     {
-                        "in": "path",
                         "name": "category",
-                        "description": "The category to search for notices",
+                        "in": "path",
+                        "description": "The category of the notices to search for",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -240,23 +240,60 @@
                         }
                     },
                     {
+                        "name": "q",
                         "in": "query",
-                        "name": "searchWords ",
+                        "description": "The search query to match against notice titles",
                         "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "Title of the notice",
-                        "example": "my"
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number to retrieve",
+                        "required": false,
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The maximum number of notices to retrieve per page",
+                        "required": false,
+                        "type": "integer",
+                        "default": 12
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NoticesArrayResponse"
+                                    "type": "object",
+                                    "properties": {
+                                        "notices": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NoticesResponse"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "totalPages": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "currentPage": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "limit": {
+                                            "type": "integer",
+                                            "default": 12
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -281,17 +318,40 @@
                         "schema": {
                             "type": "string",
                             "enum": ["sell", "in-good-hands", "lost-found"]
-                        },
-                        "example": "in good hands"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NoticesArrayResponse"
+                                    "type": "object",
+                                    "properties": {
+                                        "notices": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NoticesResponse"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "totalPages": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "currentPage": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "limit": {
+                                            "type": "integer",
+                                            "default": 12
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -323,10 +383,14 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NoticesByIdResponse"
+                                    "$ref": "#/components/schemas/NoticesResponse"
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Is not valid id",
+                        "content": {}
                     },
                     "404": {
                         "description": "Notice not found",
@@ -356,21 +420,18 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NoticesArrayResponse"
-                                }
-                            }
-                        }
+                        "description": "Notice add"
+                    },
+                    "400": {
+                        "description": "Is not valid id",
+                        "content": {}
                     },
                     "401": {
-                        "description": "User not authorized",
+                        "description": "Not authorized",
                         "content": {}
                     },
                     "404": {
-                        "description": "User  not found",
+                        "description": "Not found",
                         "content": {}
                     }
                 }
@@ -399,17 +460,23 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NoticesByIdResponse"
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "notice deleted"
+                                        }
+                                    }
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "User not authorized",
+                        "description": "Not authorized",
                         "content": {}
                     },
                     "404": {
-                        "description": "User  not found",
+                        "description": "Not found",
                         "content": {}
                     }
                 }
@@ -427,17 +494,33 @@
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, user id <br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br>",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NoticesArrayResponse"
+                                    "type": "object",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "64633604842359b372cc3d83"
+                                        },
+                                        "notices": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NoticesResponse"
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "User not authorized",
+                        "description": "Not authorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Not found",
                         "content": {}
                     }
                 }
@@ -471,7 +554,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NoticesByIdResponse"
+                                    "$ref": "#/components/schemas/NoticesResponse"
                                 }
                             }
                         }
@@ -814,91 +897,7 @@
                     "phone": "+380678884455"
                 }
             },
-            "NoticesArrayResponse": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "required": [
-                        "title",
-                        "category",
-                        "name",
-                        "birthday",
-                        "breed",
-                        "place",
-                        "sex",
-                        "photoURL",
-                        "comments",
-                        "owner"
-                    ],
-                    "properties": {
-                        "title": {
-                            "type": "string",
-                            "description": "notice title",
-                            "example": "Colorful Parrot for Your Home"
-                        },
-                        "category": {
-                            "type": "string",
-                            "enum": ["sell", "in-good-hands", "lost-found"],
-                            "description": "Category for notice"
-                        },
-                        "price": {
-                            "type": "string",
-                            "example": "1500$",
-                            "description": "'Price must be higher than 0'"
-                        },
-                        "name": {
-                            "type": "string",
-                            "description": "Pet name",
-                            "example": "Dana"
-                        },
-                        "birthday": {
-                            "type": "string",
-                            "format": "date-time"
-                        },
-                        "breed": {
-                            "type": "string",
-                            "description": "Pet breed",
-                            "example": "Bichon"
-                        },
-                        "place": {
-                            "type": "string",
-                            "description": "Set place",
-                            "example": "Odesa"
-                        },
-                        "sex": {
-                            "type": "string",
-                            "enum": ["male", "female"],
-                            "description": "pet gender"
-                        },
-                        "comments": {
-                            "type": "string",
-                            "example": "Cute dogy"
-                        },
-                        "owner": {
-                            "type": "string",
-                            "example": "645cd2bb1915ca1c3dd740bc"
-                        },
-                        "favorite": {
-                            "type": "array",
-                            "description": "Array notice id",
-                            "example": [
-                                "611c1f57db916b209acdd1a1",
-                                "611c1f57db916b209acdd1a2"
-                            ],
-                            "items": {
-                                "type": "string",
-                                "example": "611c1f57db916b209acdd1a1"
-                            }
-                        },
-                        "photoURL": {
-                            "type": "string",
-                            "description": "URL to pet's avatar image",
-                            "example": "https://example.com/photo.jpg"
-                        }
-                    }
-                }
-            },
-            "NoticesByIdResponse": {
+            "NoticesResponse": {
                 "type": "object",
                 "required": [
                     "title",
@@ -909,13 +908,16 @@
                     "place",
                     "sex",
                     "photoURL",
-                    "comments"
+                    "owner"
                 ],
                 "properties": {
+                    "_id": {
+                        "type": "string",
+                        "description": "notice id"
+                    },
                     "title": {
                         "type": "string",
-                        "description": "notice title",
-                        "example": "Colorful Parrot for Your Home"
+                        "description": "notice title"
                     },
                     "category": {
                         "type": "string",
@@ -924,13 +926,12 @@
                     },
                     "price": {
                         "type": "string",
-                        "example": "1500$",
+                        "default": 1,
                         "description": "'Price must be higher than 0'"
                     },
                     "name": {
                         "type": "string",
-                        "description": "Pet name",
-                        "example": "Dana"
+                        "description": "Pet name"
                     },
                     "birthday": {
                         "type": "string",
@@ -938,13 +939,11 @@
                     },
                     "breed": {
                         "type": "string",
-                        "description": "Pet breed",
-                        "example": "Bichon"
+                        "description": "Pet breed"
                     },
                     "place": {
                         "type": "string",
-                        "description": "Set place",
-                        "example": "Odesa"
+                        "description": "Set place"
                     },
                     "sex": {
                         "type": "string",
@@ -952,30 +951,29 @@
                         "description": "pet gender"
                     },
                     "comments": {
-                        "type": "string",
-                        "example": "Cute dogy"
+                        "type": "string"
                     },
-                    "_id": {
-                        "type": "string",
-                        "example": "645cd2bb1915ca1c3dd740bc"
-                    },
-                    "favorite": {
-                        "type": "array",
-                        "description": "Array notice id",
-                        "example": [
-                            "611c1f57db916b209acdd1a1",
-                            "611c1f57db916b209acdd1a2"
-                        ],
-                        "items": {
-                            "type": "string",
-                            "example": "611c1f57db916b209acdd1a1"
-                        }
+                    "owner": {
+                        "type": "string"
                     },
                     "photoURL": {
                         "type": "string",
-                        "description": "URL to pet's avatar image",
-                        "example": "https://example.com/photo.jpg"
+                        "description": "URL to pet's avatar image"
                     }
+                },
+                "example": {
+                    "_id": "64625f01d235dfcd7d09993a",
+                    "title": "Colorful Parrot for Your Home",
+                    "category": "sell",
+                    "price": "1500",
+                    "name": "Dana",
+                    "birthday": "2023-05-15T16:04:24.183Z",
+                    "breed": "Bichon",
+                    "place": "Odesa",
+                    "sex": "male",
+                    "comments": "Cute dogy",
+                    "owner": "64624f3b1704a050a6c20a6e",
+                    "photoURL": "avatars\\64633604842359b372cc3d83_photo.jpg"
                 }
             },
             "PetRequest": {
@@ -1031,7 +1029,6 @@
                     },
                     "breed": {
                         "type": "string",
-                        "example": "Bichon",
                         "description": "Pet's breed"
                     },
                     "comments": {
