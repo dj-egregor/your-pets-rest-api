@@ -3,13 +3,8 @@ const Notice = require('../../models/notice');
 
 const path = require('path');
 const fs = require('fs/promises');
-const noticesImgDir = path.join(
-    __dirname,
-    '../',
-    '../',
-    'public',
-    'notices-img'
-);
+const folder = 'notices-img';
+const noticesImgDir = path.join(__dirname, '../', '../', 'public', folder);
 const resizeImage = require('../../utils/resizeImage/resizeImage');
 
 const createUserNoticeByCategory = async (req, res, next) => {
@@ -25,7 +20,7 @@ const createUserNoticeByCategory = async (req, res, next) => {
         }
 
         await fs.rename(tempUpload, resultUpload);
-        const imageURL = path.join('avatars', filename);
+        const imageURL = path.join(folder, filename);
 
         const { _id: owner } = req.user;
         const { category } = req.params;
