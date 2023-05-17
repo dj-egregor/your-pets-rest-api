@@ -15,6 +15,9 @@ const noticeSchema = new Schema(
         price: {
             type: String,
             min: [1, 'Price must be higher than 0'],
+            required: function () {
+                return this.category === 'sell';
+            },
         },
         name: {
             type: String,
@@ -45,7 +48,6 @@ const noticeSchema = new Schema(
             type: String,
             minLength: 8,
             maxLength: 120,
-            required: [true, 'Set comment for notice'],
         },
         owner: {
             type: Schema.Types.ObjectId,

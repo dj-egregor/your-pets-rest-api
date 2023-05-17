@@ -36,6 +36,7 @@ router.post(
     validation.validate(addNoticeSchema),
     ctrl.createUserNoticeByCategory
 );
+
 router.get('/user-notices', authenticate, ctrl.getUserNotices);
 router.delete(
     '/user-notices/:noticeId',

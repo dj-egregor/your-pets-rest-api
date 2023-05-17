@@ -4,13 +4,6 @@ const addNoticeSchema = Joi.object({
     title: Joi.string().required().messages({
         'any.required': 'Set title for notice',
     }),
-    category: Joi.string()
-        .valid('sell', 'lost-found', 'in-good-hands')
-        .required()
-        .messages({
-            'any.required': 'Set category for notice',
-            'any.only': 'Category is invalid',
-        }),
     price: Joi.string().min(1).messages({
         'number.min': 'Price must be higher than 0',
     }),
@@ -30,9 +23,7 @@ const addNoticeSchema = Joi.object({
         'any.required': 'Set sex for notice',
         'any.only': 'Sex is invalid',
     }),
-    comments: Joi.string().required().min(8).max(120).messages({
-        'any.required': 'Set comment for notice',
-    }),
+    comments: Joi.string().min(8).max(120),
     photoURL: Joi.binary()
         .max(3 * 1024 * 1024)
         .description('PetImage max 3mb'),
