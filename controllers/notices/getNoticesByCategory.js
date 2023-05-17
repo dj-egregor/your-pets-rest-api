@@ -12,7 +12,7 @@ const getNoticesByCategory = async (req, res, next) => {
             Notice.find({ category }).skip(skip).limit(limit),
         ]);
 
-        if (!notices) {
+        if (notices.length <= 0) {
             throw new NotFound(`There are no notices for this request`);
         }
 
