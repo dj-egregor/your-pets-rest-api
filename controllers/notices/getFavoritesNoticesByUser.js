@@ -9,7 +9,7 @@ const getFavoritesNoticesByUser = async (req, res, next) => {
             .populate('favorite')
             .select('favorite');
 
-        if (notices.length === 0) {
+        if (notices.favorite.length === 0) {
             throw new NotFound(`There are no notices for this request`);
         }
 
