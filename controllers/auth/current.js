@@ -1,9 +1,10 @@
 const getCurrent = async (req, res, next) => {
     try {
-        const user = { ...req.user.toObject() };
-        delete user.password;
+        const { email } = req.user;
 
-        res.json(user);
+        res.json({
+            email,
+        });
     } catch (error) {
         next(error);
     }
