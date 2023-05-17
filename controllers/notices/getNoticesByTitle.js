@@ -4,7 +4,7 @@ const Notice = require('../../models/notice');
 const getNoticesByTitle = async (req, res, next) => {
     try {
         const { category } = req.params;
-        const { page = 1, limit = 12, q } = req.query;
+        const { page = 1, limit = 12, q = '' } = req.query;
         const skip = (page - 1) * limit;
 
         const searchWords = q.trim().split(' ');

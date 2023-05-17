@@ -1,12 +1,12 @@
 const { isValidObjectId } = require('mongoose');
 
-const { NotFound } = require('http-errors');
+const { BadRequest } = require('http-errors');
 
 const isValidId = fieldId => (req, res, next) => {
     const { [fieldId]: id } = req.params;
     const isIdValid = isValidObjectId(id);
     if (!isIdValid) {
-        return next(NotFound(`${id} is not valid id`));
+        return next(BadRequest(`${id} is not valid id`));
     }
     next();
 };

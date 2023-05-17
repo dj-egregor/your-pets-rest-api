@@ -3,12 +3,17 @@ const Notice = require('../../models/notice');
 
 const path = require('path');
 const fs = require('fs/promises');
-const noticesImgDir = path.join(__dirname, '../', '../', 'public', 'notices-img');
+const noticesImgDir = path.join(
+    __dirname,
+    '../',
+    '../',
+    'public',
+    'notices-img'
+);
 const resizeImage = require('../../utils/resizeImage/resizeImage');
 
 const createUserNoticeByCategory = async (req, res, next) => {
     try {
-
         const { _id } = req.user;
         const { path: tempUpload, originalname } = req.file;
         const filename = `${_id}_${originalname}`;
