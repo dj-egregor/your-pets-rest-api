@@ -1,5 +1,6 @@
 const { NotFound } = require('http-errors');
 const { User } = require('../../models/user');
+const Notice = require('../../models/notice');
 
 const updateStatusNotice = async (req, res, next) => {
     try {
@@ -9,6 +10,11 @@ const updateStatusNotice = async (req, res, next) => {
         const user = await User.findById(userId);
         if (!user) {
             throw new NotFound(`Not found user with id: ${userId}`);
+        }
+
+        const notice = await Notice.findById(noticeId);
+        if (!notice) {
+            throw new NotFound(`Not found notice with id: ${noticeId}`);
         }
 
         if (user.favorite.includes(noticeId)) {
