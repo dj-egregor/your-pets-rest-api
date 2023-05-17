@@ -23,9 +23,7 @@ const addNoticeSchema = Joi.object({
         'any.required': 'Set sex for notice',
         'any.only': 'Sex is invalid',
     }),
-    comments: Joi.string().min(8).max(120).messages({
-        'any.required': 'Set comment for notice',
-    }),
+    comments: Joi.string().min(8).max(120),
     photoURL: Joi.binary()
         .max(3 * 1024 * 1024)
         .description('PetImage max 3mb'),
