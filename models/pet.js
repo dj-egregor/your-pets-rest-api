@@ -9,6 +9,9 @@ const petSchema = new Schema(
         photoURL: {
             type: String,
         },
+        photoPublicId: {
+            type: String,
+        },
         birthday: {
             type: Date,
             required: true,

@@ -58,6 +58,9 @@ const noticeSchema = new Schema(
             type: String,
             default: null,
         },
+        photoPublicId: {
+            type: String,
+        },
     },
     { versionKey: false }
 );
