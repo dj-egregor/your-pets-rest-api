@@ -28,11 +28,12 @@ const login = async (req, res, next) => {
         });
         await User.findByIdAndUpdate(user._id, { token });
 
+        const userData = user.toObject();
+        delete userData.password;
+
         res.json({
             token,
-            user: {
-                email: user.email,
-            },
+            user: userData,
         });
     } catch (error) {
         next(error);
