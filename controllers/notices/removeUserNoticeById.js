@@ -1,5 +1,9 @@
 const { NotFound } = require('http-errors');
 const { User } = require('../../models/user');
+const Notice = require('../../models/notice');
+
+const fs = require('fs/promises');
+const path = require('path');
 
 const removeUserNoticeById = async (req, res, next) => {
     try {
@@ -11,21 +15,20 @@ const removeUserNoticeById = async (req, res, next) => {
             throw new NotFound(`Not found user with id: ${userId}`);
         }
 
-        if (!user.favorite.includes(noticeId)) {
-            throw new NotFound(
-                `Notice with id=${noticeId} is not in user's list`
-            );
-        }
-
-        const result = await User.findByIdAndUpdate(
-            userId,
-            { $pull: { favorite: noticeId } },
-            { new: true }
-        ).populate('favorite');
+        const result = await Notice.findByIdAndRemove(noticeId, userId);
 
         if (!result) {
             throw new NotFound(`Notice with id=${noticeId} not found`);
         }
+
+        const imagePath = path.join(
+            __dirname,
+            '../',
+            '../',
+            'public',
+            result.photoURL
+        );
+        await fs.unlink(imagePath);
 
         res.status(200).json({
             message: 'notice deleted',
