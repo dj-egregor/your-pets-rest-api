@@ -1,9 +1,7 @@
 const Joi = require('joi');
 
 const addNoticeSchema = Joi.object({
-    title: Joi.string().required().messages({
-        'any.required': 'Set title for notice',
-    }),
+    title: Joi.string(),
     price: Joi.string().min(1).messages({
         'number.min': 'Price must be higher than 0',
     }),
