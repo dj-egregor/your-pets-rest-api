@@ -27,6 +27,7 @@ const addNoticeSchema = Joi.object({
     photoURL: Joi.binary()
         .max(3 * 1024 * 1024)
         .description('PetImage max 3mb'),
+    photoPublicId: Joi.string(),
 });
 
 module.exports = addNoticeSchema;

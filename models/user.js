@@ -35,6 +35,9 @@ const userSchema = new Schema(
         avatarURL: {
             type: String,
         },
+        photoPublicId: {
+            type: String,
+        },
         favorite: [
             {
                 type: Schema.Types.ObjectId,

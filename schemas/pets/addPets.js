@@ -8,6 +8,8 @@ const addPetSchema = Joi.object({
     photoURL: Joi.binary()
         .max(3 * 1024 * 1024)
         .description('PetImage max 3mb'),
+    
+    photoPublicId: Joi.string(),
 
     birthday: Joi.date().max('now').required().messages({
         'any.required': 'Set birthday for pet',

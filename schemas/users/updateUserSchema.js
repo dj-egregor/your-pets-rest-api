@@ -9,6 +9,8 @@ const updateUserSchema = Joi.object({
 
     email: Joi.string().email(),
 
+    photoPublicId: Joi.string(),
+
     birthday: Joi.date().max('now').iso(),
 
     phone: Joi.string().regex(/^[\d+() -]+$/),
