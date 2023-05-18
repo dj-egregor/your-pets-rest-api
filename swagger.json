@@ -393,6 +393,22 @@
                             "type": "string",
                             "enum": ["sell", "in-good-hands", "lost-found"]
                         }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number to retrieve",
+                        "required": false,
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The maximum number of notices to retrieve per page",
+                        "required": false,
+                        "type": "integer",
+                        "default": 12
                     }
                 ],
                 "responses": {
@@ -494,7 +510,20 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Notice add"
+                        "description": "Notice add",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Notice add"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Is not valid id",
@@ -578,7 +607,7 @@
                                             "type": "string",
                                             "example": "64633604842359b372cc3d83"
                                         },
-                                        "notices": {
+                                        "favorite": {
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/NoticesResponse"
@@ -777,7 +806,7 @@
                         }
                     },
                     "401": {
-                        "description": "User not authorized",
+                        "description": "Not authorized",
                         "content": {}
                     },
                     "404": {
@@ -932,7 +961,20 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Pet deleted"
+                        "description": "Pet deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pet deleted"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Not authorized",
@@ -1041,8 +1083,8 @@
                         "description": "User's avatar URL"
                     },
                     "favorite": {
-                        "type": "array",
-                        "items": {}
+                        "type": "array"
+                        
                     },
                     "birthday": {
                         "type": "string",
@@ -1065,16 +1107,13 @@
                 "example": {
                     "_id": "645e819f374fda194a78304b",
                     "email": "user@example.com",
-                    "avatarURL": "https://example.com",
-                    "favorite": [],
-                    "birthday": "05-10-2022",
+                    "avatarURL": "//www.gravatar.com/avatar/209a8b607e9beda3d698c03b03d6729b",
+                    "favorite": ["6465552466bc396723e59f93"],
+                    "birthday": "1980-04-15T00:00:00.000Z",
                     "city": "Lviv",
                     "name": "Helen",
                     "phone": "+380678884455"
                 }
-            },
-            "CurrentResponse": {
-                
             },
             "NoticesRequest": {
                 "type": "object",
@@ -1195,16 +1234,8 @@
                         "type": "string"
                     },
                     "owner": {
-                        "type": "object",
-                        "properties": {
-                            "_id": {
-                                "type": "string"
-                            },
-                            "email": {
-                                "type": "string",
-                                "format": "email"
-                            }
-                        }
+                        "type": "string"
+                        
                     },
                     "photoURL": {
                         "type": "string",
@@ -1222,11 +1253,8 @@
                     "place": "Odesa",
                     "sex": "male",
                     "comments": "Cute dogy",
-                    "owner": {
-                        "_id": "64654b1e6049915a9a37f135",
-                        "email": "use777@exampl.com"
-                    },
-                    "photoURL": "avatars\\64633604842359b372cc3d83_photo.jpg"
+                    "owner": "64654b1e6049915a9a37f135",
+                    "photoURL": "notices-img/4548164d-6521-4f55-9776-478ae59c8973.jpg"
                 }
             },
             "PetRequest": {
@@ -1297,13 +1325,14 @@
                     }
                 },
                 "example": {
+                    "_id": "646362c9d4b09e1d0c295e0b",
                     "name": "Goat Benchik1",
                     "photoURL": "https://cs12.pikabu.ru/post_img/big/2021/03/02/10/1614702324118580481.png",
-                    "birthday": "05-10-2022",
+                    "birthday": "2019-09-12T00:00:00.000Z",
                     "breed": "Goat",
                     "comments": "I love it when Teamlead milks me too",
-                    "owner": "64633604842359b372cc3d83",
-                    "_id": "646362c9d4b09e1d0c295e0b"
+                    "owner": "64633604842359b372cc3d83"
+                    
                 }
             }
         },
