@@ -23,6 +23,10 @@
         {
             "name": "Pets",
             "description": "Pets endpoints"
+        },
+        {
+            "name": "News",
+            "description": "News endpoint"
         }
     ],
     "paths": {
@@ -283,8 +287,7 @@
                                             "type": "string",
                                             "format": "email",
                                             "description": "User token",
-                                            "example":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjVkMjQ4MzI2M2Y1MTkxMTU1ZjFmNyIsImlhdCI6MTY4NDM5NDg1OSwiZXhwIjoxNjg0NDU5NjU5fQ.F71-KcfaP9gt7bNNuQJA_EUF-xkURvhRaLkv1AE55OY"
-                                            
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjVkMjQ4MzI2M2Y1MTkxMTU1ZjFmNyIsImlhdCI6MTY4NDM5NDg1OSwiZXhwIjoxNjg0NDU5NjU5fQ.F71-KcfaP9gt7bNNuQJA_EUF-xkURvhRaLkv1AE55OY"
                                         }
                                     }
                                 }
@@ -511,7 +514,7 @@
                 "responses": {
                     "200": {
                         "description": "Notice add",
-                        "content":{
+                        "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
@@ -986,6 +989,77 @@
                     }
                 }
             }
+        },
+        "/news": {
+            "get": {
+                "tags": ["News"],
+                "summary": "Get news",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query to match against notice titles",
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number to retrieve",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The maximum number of notices to retrieve per page",
+                        "type": "integer",
+                        "default": 6
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, news id <br><br> <b>imgURL</b> - string, URL to news's image<br><br> <b>title</b> - string, news title <br><br> <b>text</b> - string, news text <br><br> <b>date</b> - string, news date <br><br> <b>url</b> - string, link to the source<br><br> <b>id</b> - string, news id on source ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "news": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NewsResponse"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "totalPages": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "currentPage": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "limit": {
+                                            "type": "integer",
+                                            "default": 6
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "There are no news",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1084,7 +1158,6 @@
                     },
                     "favorite": {
                         "type": "array"
-                        
                     },
                     "birthday": {
                         "type": "string",
@@ -1235,7 +1308,6 @@
                     },
                     "owner": {
                         "type": "string"
-                        
                     },
                     "photoURL": {
                         "type": "string",
@@ -1332,7 +1404,47 @@
                     "breed": "Goat",
                     "comments": "I love it when Teamlead milks me too",
                     "owner": "64633604842359b372cc3d83"
-                    
+                }
+            },
+            "NewsResponse": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "description": "news id"
+                    },
+                    "imgURL": {
+                        "type": "string",
+                        "description": "URL to news's image"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "News title"
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "News text"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "url": {
+                        "type": "sidtring",
+                        "description": "url news"
+                    },
+                    "id": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "_id": "645e59297d3fb5013e50cd6e",
+                    "imgUrl": "https://www.nytimes.com/images/2023/04/16/magazine/16mag-LOR/16mag-LOR-blog480.jpg",
+                    "title": "What I Learned Dogsitting for New York City’s Opulent Elite",
+                    "text": "In a city of yawning class inequality, some side hustles let you glimpse how the other half lives.",
+                    "date": "2023-04-11T09:00:18.000Z",
+                    "url": "https://www.nytimes.com/2023/04/11/magazine/dogsitting-rich-new-york.html",
+                    "id": "nyt://article/8d29f1fc-d146-509d-8ceb-5a5b17d7886b"
                 }
             }
         },
