@@ -19,12 +19,16 @@ const addPet = async (req, res, next) => {
                 photoURL: result.url,
                 photoPublicId: result.public_id,
             });
-
+            
             if (!pet) {
                 throw new NotFound('Not found');
             }
 
-            res.status(201).json(pet);
+            const petData = pet.toObject();
+            delete petData.createdAt;
+            delete petData.updatedAt;
+
+            res.status(201).json(petData);
         }
     }
     catch (error) {
