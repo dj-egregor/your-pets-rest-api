@@ -225,7 +225,7 @@
             }
         },
         "/users/current": {
-            "post": {
+            "get": {
                 "tags": ["Auth"],
                 "summary": "Current user",
                 "security": [
@@ -235,22 +235,64 @@
                 ],
                 "parameters": [],
                 "responses": {
-                    "201": {
-                        "description": "Current user",
+                    "200": {
+                        "description": "Get Current user",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserResponse"
+                                    "type": "object",
+                                    "required": ["email"],
+                                    "properties": {
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "description": "User email"
+                                        }
+                                    }
                                 }
                             }
                         }
                     },
-                    "400": {
-                        "description": "BadRequest<br> <br><b>If the mail is not valid</b>:  This email is not valide<br> <b>If the password is not valid</b>:   Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number <b> or </b> password length must be at least 6 characters long and less than or equal to 16 characters long",
+                    "401": {
+                        "description": "Not authorized",
                         "content": {}
+                    }
+                }
+            }
+        },
+        "/users/refresh-token": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Refresh token",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Refresh token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": ["email"],
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "description": "User token",
+                                            "example":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjVkMjQ4MzI2M2Y1MTkxMTU1ZjFmNyIsImlhdCI6MTY4NDM5NDg1OSwiZXhwIjoxNjg0NDU5NjU5fQ.F71-KcfaP9gt7bNNuQJA_EUF-xkURvhRaLkv1AE55OY"
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
-                    "409": {
-                        "description": "Conflict<br> <br>Email in use",
+                    "401": {
+                        "description": "Not authorized",
                         "content": {}
                     }
                 }
@@ -1031,6 +1073,9 @@
                     "phone": "+380678884455"
                 }
             },
+            "CurrentResponse": {
+                
+            },
             "NoticesRequest": {
                 "type": "object",
                 "required": [
@@ -1153,11 +1198,11 @@
                         "type": "object",
                         "properties": {
                             "_id": {
-                                "type":"string"
+                                "type": "string"
                             },
-                            "email":{
+                            "email": {
                                 "type": "string",
-                                "format":"email"
+                                "format": "email"
                             }
                         }
                     },
