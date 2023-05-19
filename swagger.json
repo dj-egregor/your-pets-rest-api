@@ -27,6 +27,10 @@
         {
             "name": "News",
             "description": "News endpoint"
+        },
+        {
+            "name": "Sponsors",
+            "description": "News endpoint"
         }
     ],
     "paths": {
@@ -1060,6 +1064,47 @@
                     }
                 }
             }
+        },
+        "/sponsors": {
+            "get": {
+                "tags": ["Sponsors"],
+                "summary": "Our friends",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number to retrieve",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The maximum number of friends to retrieve per page",
+                        "type": "integer",
+                        "default": 9
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, news id <br><br> <b>imgURL</b> - string, URL to news's image<br><br> <b>title</b> - string, news title <br><br> <b>text</b> - string, news text <br><br> <b>date</b> - string, news date <br><br> <b>url</b> - string, link to the source<br><br> <b>id</b> - string, news id on source ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SponsorsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "There are no sponsors",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1430,7 +1475,7 @@
                         "format": "date-time"
                     },
                     "url": {
-                        "type": "sidtring",
+                        "type": "string",
                         "description": "url news"
                     },
                     "id": {
@@ -1446,6 +1491,118 @@
                     "url": "https://www.nytimes.com/2023/04/11/magazine/dogsitting-rich-new-york.html",
                     "id": "nyt://article/8d29f1fc-d146-509d-8ceb-5a5b17d7886b"
                 }
+            },
+            "SponsorsResponse": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "_id": {
+                            "type": "string",
+                            "description": "Sponsor id"
+                        },
+                        "title": {
+                            "type": "string",
+                            "description": "Sponsor title"
+                        },
+                        "url": {
+                            "type": "string",
+                            "description": "Sponsor url website"
+                        },
+                        "addressUrl": {
+                            "type": "string",
+                            "description": "Google Map Location url"
+                        },
+                        "imgURL": {
+                            "type": "string",
+                            "description": "URL to sponsor's logo"
+                        },
+                        "address": {
+                            "type": "string",
+                            "description": "Address"
+                        },
+                        "workDays": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "isOpen": {
+                                        "type": "boolean",
+                                        "description": "Work or Weekend"
+                                    },
+                                    "from": {
+                                        "type": "string",
+                                        "description": "Start work time"
+                                    },
+                                    "to": {
+                                        "type": "string",
+                                        "description": "End work time"
+                                    }
+                                }
+                            }
+                        },
+                        "phone": {
+                            "type": "string",
+                            "description": "Phone number"
+                        },
+                        "email": {
+                            "type": "string",
+                            "format": "email",
+                            "description": "Email"
+                        }
+                    }
+                },
+
+                "example": [
+                    {
+                        "_id": "645e60d47d3fb5013e50d1ef",
+                        "title": "Притулок для бездомних тварин 'Сіріус'",
+                        "url": "https://dogcat.com.ua",
+                        "addressUrl": "https://goo.gl/maps/iq8NXEUf31EAQCzc6",
+                        "imageUrl": "https://storage.googleapis.com/kidslikev2_bucket/pets-support/images/sponsors/frame_287.png",
+                        "address": "Fedorivka, Kyiv Oblast, Ukraine, 07372",
+                        "workDays": [
+                            {
+                                "isOpen": false
+                            },
+                            {
+                                "isOpen": false
+                            },
+                            {
+                                "isOpen": false
+                            },
+                            {
+                                "isOpen": false
+                            },
+                            {
+                                "isOpen": false
+                            },
+                            {
+                                "isOpen": true,
+                                "from": "11:00",
+                                "to": "16:00"
+                            },
+                            {
+                                "isOpen": true,
+                                "from": "11:00",
+                                "to": "16:00"
+                            }
+                        ],
+                        "phone": "+380931934069",
+                        "email": "sirius@gmail.com"
+                    },
+                    {
+                        "_id": "645e60d47d3fb5013e50d1f3",
+                        "title": "Притулок для собак Велике серце",
+                        "url": "https://pethelp.com.ua/interv_yu_z_zasnovnitseyu_pritulku_velike_sertse/",
+                        "addressUrl": null,
+                        "imageUrl": "https://storage.googleapis.com/kidslikev2_bucket/pets-support/images/sponsors/frame_286.png",
+                        "address": "м. Полтава",
+                        "workDays": null,
+                        "phone": "+380964792676",
+                        "email": "pethelp.ukr@gmail.com"
+                    }
+                ]
             }
         },
         "securitySchemes": {
