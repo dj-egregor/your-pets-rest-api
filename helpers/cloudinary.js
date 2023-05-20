@@ -17,7 +17,9 @@ async function removeCLD(publicId) {
 
 const updateCLD = async (publicId, imagePath, folder) => {
     try {
-        await cloudinary.uploader.destroy(publicId);
+        if (publicId) {
+            await cloudinary.uploader.destroy(publicId);
+        }
 
         const result = await cloudinary.uploader.upload(imagePath, { folder });
 

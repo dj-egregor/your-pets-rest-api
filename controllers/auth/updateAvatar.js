@@ -6,13 +6,14 @@ const updateAvatar = async (req, res, next) => {
     try {
         if (req.file) {
             const { _id, photoPublicId } = req.user;
+            console.log('UUUUUUUUUU', _id, photoPublicId);
             const result = await updateCLD(
                 photoPublicId,
                 req.file.path,
                 'users-avatars'
             );
             await fs.unlink(req.file.path);
-            
+
             await User.findByIdAndUpdate(_id, {
                 avatarURL: result.url,
                 photoPublicId: result.public_id,
