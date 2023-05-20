@@ -1,13 +1,12 @@
 const fs = require('fs/promises');
 const { User } = require('../../models/user');
-const { updateCLD } = require('../../helpers/cloudinary');
+const { uploadCLD } = require('../../helpers/cloudinary');
 
 const updateAvatar = async (req, res, next) => {
     try {
         if (req.file) {
-            const { _id, photoPublicId } = req.user;
-            const result = await updateCLD(
-                photoPublicId,
+            const { _id} = req.user;
+            const result = await uploadCLD(
                 req.file.path,
                 'users-avatars'
             );
