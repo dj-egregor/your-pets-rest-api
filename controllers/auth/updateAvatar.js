@@ -5,6 +5,7 @@ const { updateCLD } = require('../../helpers/cloudinary');
 const updateAvatar = async (req, res, next) => {
     try {
         if (req.file) {
+            console.log(req.file);
             const { _id, photoPublicId } = req.user;
             const result = await updateCLD(
                 photoPublicId,
