@@ -1,5 +1,6 @@
 const { NotFound } = require('http-errors');
 const Notice = require('../../models/notice');
+const User = require('../../models/user');
 
 const getNoticesSearchByTitleAndCategory = async (req, res, next) => {
     try {
@@ -18,7 +19,12 @@ const getNoticesSearchByTitleAndCategory = async (req, res, next) => {
             $and: [{ category }, { title: regex }],
         })
             .skip(skip)
-            .limit(limit);
+            .limit(limit)
+            .populate({
+                path: 'owner',
+                select: 'email phone', // Укажите поля, которые нужно включить
+            });
+        // .populate('ownerInfo');
 
         if (notices.length === 0) {
             throw new NotFound(`There are no notices for this request`);
