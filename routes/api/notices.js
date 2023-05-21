@@ -12,6 +12,7 @@ const { addNoticeSchema } = require('../../schemas/notices');
 const router = express();
 
 router.get('/search/:category', ctrl.getNoticesByTitle);
+router.get('/:category', ctrl.getNoticesSearchByTitleAndCategory);
 router.get('/category/:category', ctrl.getNoticesByCategory);
 router.get('/notice/:noticeId', isValidId('noticeId'), ctrl.getNoticeById);
 
