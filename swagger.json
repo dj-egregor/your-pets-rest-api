@@ -276,7 +276,7 @@
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "Get Current user <br><br><b>DESCRIPTION OF RESPONSE PARAMETERS:</b> <br><br> <b>_id</b> - string, user _id <br><br><b>email</b> - string, the user's email address.  Pattern: /^([a-z0-9_-]+.) *[a-z0-9_-]+@[a-z0-9_-]+(.[ a-z0-9_-]+)*. [a-z] {2,6}$/ <br><br> <b>token</b> - string, the user's token <br><br><b>avatarURL</b> - string, the path to the uploaded user avatar <br><br> <b>favorite</b> - array with id favorite notices <br><br> <b>birthday</b> - date, the user's birthday. max date - now, example format: 1980-04-15T00:00:00.000Z</b><br><br><b>city</b> - string, user city. Must contain min 2, max 100. It can contain only Latin and Cyrillic letters, as well as separators in the form of a space or hyphen. At the same time, it does not allow a delimiter string to begin or end and does not allow the use of two delimiters in a row. <br>Pattern: /^[a-zA-Zа-яА-Я]+(?:[s-][a-zA-Zа-яА-Я]+)*$/ <br><br><b>name</b> - string, the user's name. Must contain min 2, max 16. It can contain only Latin and Cyrillic letters, the apostrophe symbol, spaces and hyphens. <br>pattern /^[a-zA-Zа-яА-Я' -]+$/</b> <br><br> <b>phone</b> - string, user phone number. Can contain: any number, plus symbol, opening and closing bracket symbols, hyphen (minus) character, space character.  ",
+                        "description": "Get Current user <br><br><b>DESCRIPTION OF RESPONSE PARAMETERS:</b> <br><br> <b>_id</b> - string, user _id <br><br><b>email</b> - string, the user's email address.  Pattern: /^([a-z0-9_-]+.) *[a-z0-9_-]+@[a-z0-9_-]+(.[ a-z0-9_-]+)*. [a-z] {2,6}$/ <br><br> <b>token</b> - string, the user's token <br><br><b>avatarURL</b> - string, the path to the uploaded user avatar <br><br> <b>favorite</b> - array with id favorite notices <br><br> <b>birthday</b> - date, the user's birthday. max date - now, example format: 1980-04-15T00:00:00.000Z</b><br><br><b>city</b> - string, user city. Must contain min 2, max 100. It can contain only Latin and Cyrillic letters, as well as separators in the form of a space or hyphen. At the same time, it does not allow a delimiter string to begin or end and does not allow the use of two delimiters in a row. <br>Pattern: /^[a-zA-Zа-яА-Я]+(?:[s-][a-zA-Zа-яА-Я]+)*$/ <br><br><b>name</b> - string, the user's name. Must contain min 2, max 16. It can contain only Latin and Cyrillic letters, the apostrophe symbol, spaces and hyphens. <br>pattern /^[a-zA-Zа-яА-Я' -]+$/</b> <br><br> <b>phone</b> - string, user phone number. Can contain: any number, plus symbol, opening and closing bracket symbols, hyphen (minus) character, space character. <br><br> <b>photoPublicId</b> - string, cloudinary photo public id ",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -329,6 +329,84 @@
                 }
             }
         },
+        "/notices/{category}": {
+            "get": {
+                "tags": ["Notices"],
+                "summary": "Search for notices by category and title",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "description": "The category of the notices to search for",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": ["sell", "in-good-hands", "lost-found"]
+                        }
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "The search query to match against notice titles",
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number to retrieve",
+                        "type": "integer",
+                        "default": 1
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The maximum number of notices to retrieve per page",
+                        "type": "integer",
+                        "default": 12
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id<br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "notices": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NoticesResponseOwner"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "totalPages": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "currentPage": {
+                                            "type": "integer",
+                                            "default": 1
+                                        },
+                                        "limit": {
+                                            "type": "integer",
+                                            "default": 12
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "There are no notices for this request",
+                        "content": {}
+                    }
+                }
+            }
+        },
         "/notices/search/{category}": {
             "get": {
                 "tags": ["Notices"],
@@ -370,7 +448,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id<br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -444,7 +522,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id<br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -500,7 +578,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Successful operation <br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -628,7 +706,7 @@
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, user id <br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br>",
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, user id <br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -725,7 +803,7 @@
                                     },
                                     "price": {
                                         "type": "integer",
-                                        "description": "string, minimum 1. Price for pet. Required for sell category"
+                                        "description": "integer, minimum 1. Price for pet. Required for sell category"
                                     },
                                     "sex": {
                                         "type": "string"
@@ -758,7 +836,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br><b>_id</b> - string, notice id ",
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id <br><br><b>_id</b> - string, notice id ",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -964,7 +1042,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The operation is successful! <br><br><b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>user</b> - object with user data<br><br> <b>_id</b> - string, user _id <br><br> <b>phone</b> - string, user phone number. Can contain: any number, plus symbol, opening and closing bracket symbols, hyphen (minus) character, space character. <br><br><b>name</b> - string, the user's name. Must contain min 2, max 16. It can contain only Latin and Cyrillic letters, the apostrophe symbol, spaces and hyphens. <br>pattern /^[a-zA-Zа-яА-Я' -]+$/</b><br><br><b>email</b> - string, the user's email address.  Pattern: /^([a-z0-9_-]+.) *[a-z0-9_-]+@[a-z0-9_-]+(.[ a-z0-9_-]+)*. [a-z] {2,6}$/ <br><br> <b>avatarURL</b> - string, the path to the uploaded user avatar <br><br> <b>favorite</b> - array with id favorite notices <br><br> <b>birthday</b> - date, the user's birthday. max date - now, example format: 05-10-2022</b><br><br><b>city</b> - string, user city. Must contain min 2, max 100. It can contain only Latin and Cyrillic letters, as well as separators in the form of a space or hyphen. At the same time, it does not allow a delimiter string to begin or end and does not allow the use of two delimiters in a row. <br>Pattern: /^[a-zA-Zа-яА-Я]+(?:[s-][a-zA-Zа-яА-Я]+)*$/</b> <br><br><br> <b>pets</b> - array of objects with pet data <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br><b>photoURL</b> - file, the pet photo is a JPEG or PNG image file, no larger than 3Mb.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now, example format: 05-10-2022</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the pet <br><br> <b>_id</b> - string, user id <br><br>" ,
+                        "description": "The operation is successful! <br><br><b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>user</b> - object with user data<br><br> <b>_id</b> - string, user _id <br><br> <b>phone</b> - string, user phone number. Can contain: any number, plus symbol, opening and closing bracket symbols, hyphen (minus) character, space character. <br><br><b>name</b> - string, the user's name. Must contain min 2, max 16. It can contain only Latin and Cyrillic letters, the apostrophe symbol, spaces and hyphens. <br>pattern /^[a-zA-Zа-яА-Я' -]+$/</b><br><br><b>email</b> - string, the user's email address.  Pattern: /^([a-z0-9_-]+.) *[a-z0-9_-]+@[a-z0-9_-]+(.[ a-z0-9_-]+)*. [a-z] {2,6}$/ <br><br> <b>avatarURL</b> - string, the path to the uploaded user avatar <br><br> <b>favorite</b> - array with id favorite notices <br><br> <b>birthday</b> - date, the user's birthday. max date - now, example format: 05-10-2022</b><br><br><b>city</b> - string, user city. Must contain min 2, max 100. It can contain only Latin and Cyrillic letters, as well as separators in the form of a space or hyphen. At the same time, it does not allow a delimiter string to begin or end and does not allow the use of two delimiters in a row. <br>Pattern: /^[a-zA-Zа-яА-Я]+(?:[s-][a-zA-Zа-яА-Я]+)*$/</b> <br><br><br> <b>pets</b> - array of objects with pet data <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br><b>photoURL</b> - file, the pet photo is a JPEG or PNG image file, no larger than 3Mb.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now, example format: 05-10-2022</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the pet <br><br> <b>_id</b> - string, user id <br><br>",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1237,6 +1315,10 @@
                         "type": "string",
                         "description": "User's avatar URL"
                     },
+                    "photoPublicId": {
+                        "type": "string",
+                        "description": "Cloudinary photo public id"
+                    },
                     "favorite": {
                         "type": "array"
                     },
@@ -1262,6 +1344,7 @@
                     "_id": "645e819f374fda194a78304b",
                     "email": "user@example.com",
                     "avatarURL": "//www.gravatar.com/avatar/209a8b607e9beda3d698c03b03d6729b",
+                    "photoPublicId": "users-pets/w25zbc5pzrvgofpugtmy",
                     "favorite": ["6465552466bc396723e59f93"],
                     "birthday": "1980-04-15T00:00:00.000Z",
                     "city": "Lviv",
@@ -1290,6 +1373,10 @@
                     "avatarURL": {
                         "type": "string",
                         "description": "User's avatar URL"
+                    },
+                    "photoPublicId": {
+                        "type": "string",
+                        "description": "Cloudinary photo public id"
                     },
                     "favorite": {
                         "type": "array"
@@ -1321,7 +1408,8 @@
                     "birthday": "1980-04-15T00:00:00.000Z",
                     "city": "Lviv",
                     "name": "Helen",
-                    "phone": "+380678884455"
+                    "phone": "+380678884455",
+                    "photoPublicId": "users-avatars/crcupjdujufcwfk8bltq"
                 }
             },
             "NoticesRequest": {
@@ -1403,7 +1491,7 @@
                         "description": "Category for notice"
                     },
                     "price": {
-                        "type": "string",
+                        "type": " integer",
                         "default": 1,
                         "description": "'Price must be higher than 0'"
                     },
@@ -1437,21 +1525,25 @@
                     "photoURL": {
                         "type": "string",
                         "description": "URL to pet's avatar image"
+                    },"photoPublicId": {
+                        "type": "string",
+                        "description": "Cloudinary photo public id"
                     }
                 },
                 "example": {
-                    "title": "Colorful Parrot for Your Home",
+                    "_id": "64662b0e2f3036272304490a",
+                    "title": "Бимболейло",
                     "category": "sell",
-                    "price": "1500",
-                    "name": "Dana",
-                    "birthday": "2023-05-15T16:04:24.183Z",
-                    "breed": "Bichon",
-                    "place": "Odesa",
+                    "price": "500",
+                    "name": "Бимболейло",
+                    "birthday": "2022-10-06T00:00:00.000Z",
+                    "breed": "Овца",
+                    "place": "Astana",
                     "sex": "male",
-                    "comments": "Cute dogy",
-                    "owner": "64654b1e6049915a9a37f135",
-                    "photoURL": "http://res.cloudinary.com/yourpet/image/upload/v1684525701/users-notices/gbijhglvrxdu2jpxrgkv.jpg",
-                    "_id": "64625f01d235dfcd7d09993a"
+                    "comments": "Все гуд, давай сначала",
+                    "owner": "6465490f66bc396723e59e0b",
+                    "photoURL": "http://res.cloudinary.com/yourpet/image/upload/v1684417291/users-notices/xawinvrtpijxgy525maf.jpg",
+                    "photoPublicId": "users-notices/xawinvrtpijxgy525maf"
                 }
             },
             "NoticesResponseOwner": {
@@ -1520,9 +1612,7 @@
                                 "type": "string",
                                 "format": "email"
                             },
-                            "name": {
-                                "type": "string"
-                            },"phone": {
+                            "phone": {
                                 "type": "string"
                             }
                         }
@@ -1530,6 +1620,10 @@
                     "photoURL": {
                         "type": "string",
                         "description": "URL to pet's avatar image"
+                    },
+                    "photoPublicId": {
+                        "type": "string",
+                        "description": "Cloudinary photo public id"
                     }
                 },
                 "example": {
@@ -1546,10 +1640,10 @@
                     "owner": {
                         "_id": "6467230dc5bff3d9e61dd929",
                         "email": "testtest@exampl.com",
-                        "name": "Helen",
                         "phone": "+380678881111"
                     },
-                    "photoURL": "notices-img/4548164d-6521-4f55-9776-478ae59c8973.jpg"
+                    "photoURL": "notices-img/4548164d-6521-4f55-9776-478ae59c8973.jpg",
+                    "photoPublicId": "users-notices/xawinvrtpijxgy525maf"
                 }
             },
             "PetRequest": {
@@ -1598,6 +1692,10 @@
                         "type": "string",
                         "description": "URL Pet photo"
                     },
+                    "photoPublicId": {
+                        "type": "string",
+                        "description": "Cloudinary photo public id"
+                    },
                     "birthday": {
                         "type": "string",
                         "format": "date",
@@ -1622,6 +1720,7 @@
                 "example": {
                     "name": "Goat Benchik1",
                     "photoURL": "http://res.cloudinary.com/yourpet/image/upload/v1684491629/users-pets/eqcacyzqipueoahwrtjb.jpg",
+                    "photoPublicId": "users-pets/w25zbc5pzrvgofpugtmy",
                     "birthday": "2019-09-12T00:00:00.000Z",
                     "breed": "Goat",
                     "comments": "I love it when Teamlead milks me too",
