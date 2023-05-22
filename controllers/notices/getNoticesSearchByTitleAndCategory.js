@@ -1,6 +1,6 @@
 const { NotFound } = require('http-errors');
 const Notice = require('../../models/notice');
-const User = require('../../models/user');
+// const User = require('../../models/user');
 
 const getNoticesSearchByTitleAndCategory = async (req, res, next) => {
     try {
