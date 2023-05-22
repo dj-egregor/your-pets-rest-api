@@ -26,11 +26,16 @@ const login = async (req, res, next) => {
         const token = jwt.sign(payload, SECRET_KEY, {
             expiresIn: process.env.JWT_EXPIRES_IN,
         });
-        await User.findByIdAndUpdate(user._id, { token });
+        const updatedUserJson = await User.findByIdAndUpdate(user._id, {
+            token,
+        });
+
+        const updatedUser = updatedUserJson.toObject();
+        delete updatedUser.password;
 
         res.json({
             token,
-            user: { email },
+            user: { ...updatedUser },
         });
     } catch (error) {
         next(error);
