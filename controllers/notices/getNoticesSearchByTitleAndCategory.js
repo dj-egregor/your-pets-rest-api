@@ -1,6 +1,6 @@
 const { NotFound } = require('http-errors');
 const Notice = require('../../models/notice');
-const User = require('../../models/user');
+// const User = require('../../models/user');
 
 const getNoticesSearchByTitleAndCategory = async (req, res, next) => {
     try {
@@ -27,7 +27,7 @@ const getNoticesSearchByTitleAndCategory = async (req, res, next) => {
         // .populate('ownerInfo');
 
         if (notices.length === 0) {
-            throw new NotFound(`There are no notices for this request`);
+            throw new NotFound(`There are no notices for this requestQQQQQQQQ`);
         }
 
         const totalPages = Math.ceil(total / limit);

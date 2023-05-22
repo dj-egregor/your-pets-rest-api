@@ -13,7 +13,7 @@ const getNoticesByCategory = async (req, res, next) => {
         ]);
 
         if (notices.length <= 0) {
-            throw new NotFound(`There are no notices for this request`);
+            throw new NotFound(`There are no notices for this requestWWWWWWWW`);
         }
 
         const totalPages = Math.ceil(total / limit);

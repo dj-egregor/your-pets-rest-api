@@ -12,22 +12,17 @@ const { addNoticeSchema } = require('../../schemas/notices');
 const router = express();
 
 router.get('/search/:category', ctrl.getNoticesByTitle);
-router.get('/:category', ctrl.getNoticesSearchByTitleAndCategory);
+router.get('/notices/:category', ctrl.getNoticesSearchByTitleAndCategory);
 router.get('/category/:category', ctrl.getNoticesByCategory);
 router.get('/notice/:noticeId', isValidId('noticeId'), ctrl.getNoticeById);
+router.get('/favorites', authenticate, ctrl.getFavoritesNoticesByUser);
+router.get('/user-notices', authenticate, ctrl.getUserNotices);
 
 router.post(
     '/favorites/:noticeId',
     authenticate,
     isValidId('noticeId'),
     ctrl.updateStatusNotice
-);
-router.get('/favorites', authenticate, ctrl.getFavoritesNoticesByUser);
-router.delete(
-    '/favorites/:noticeId',
-    authenticate,
-    isValidId('noticeId'),
-    ctrl.removeFavoritesNoticeByUser
 );
 
 router.post(
@@ -38,7 +33,13 @@ router.post(
     ctrl.createUserNoticeByCategory
 );
 
-router.get('/user-notices', authenticate, ctrl.getUserNotices);
+router.delete(
+    '/favorites/:noticeId',
+    authenticate,
+    isValidId('noticeId'),
+    ctrl.removeFavoritesNoticeByUser
+);
+
 router.delete(
     '/user-notices/:noticeId',
     authenticate,
