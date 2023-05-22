@@ -8,6 +8,7 @@ const getFavoritesNoticesByUser = async (req, res, next) => {
         console.log('userIduserIduserId', userId);
 
         const notices = await User.findById(userId)
+            .sort({ createdAt: -1 })
             .populate('favorite')
             .select('favorite');
 

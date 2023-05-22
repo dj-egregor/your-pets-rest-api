@@ -9,7 +9,10 @@ const getNoticesByCategory = async (req, res, next) => {
 
         const [total, notices] = await Promise.all([
             Notice.countDocuments({ category }),
-            Notice.find({ category }).skip(skip).limit(limit),
+            Notice.find({ category })
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit),
         ]);
 
         if (notices.length <= 0) {

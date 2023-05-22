@@ -45,7 +45,10 @@ const userSchema = new Schema(
             },
         ],
     },
-    { versionKey: false }
+    {
+        versionKey: false,
+        timestamps: true,
+    }
 );
 
 userSchema.post('save', handleMongooseError);

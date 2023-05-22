@@ -18,6 +18,7 @@ const getNoticesSearchByTitleAndCategory = async (req, res, next) => {
         const notices = await Notice.find({
             $and: [{ category }, { title: regex }],
         })
+            .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
             .populate({

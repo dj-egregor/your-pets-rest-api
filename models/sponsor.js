@@ -30,6 +30,7 @@ const sponsorSchema = new Schema(
     },
     {
         versionKey: false,
+        timestamps: true,
     }
 );
 

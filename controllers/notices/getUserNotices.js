@@ -10,6 +10,7 @@ const getUserNotices = async (req, res, next) => {
         const [total, notices] = await Promise.all([
             Notice.countDocuments({ owner }),
             Notice.find({ owner })
+                .sort({ createdAt: -1 })
                 .populate('owner', 'name email phone')
                 .skip(skip)
                 .limit(limit),
