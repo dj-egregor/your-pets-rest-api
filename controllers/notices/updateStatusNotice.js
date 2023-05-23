@@ -35,6 +35,7 @@ const updateStatusNotice = async (req, res, next) => {
 
         res.json({
             messages: 'Notice add',
+            id: noticeId,
         });
     } catch (error) {
         next(error);
