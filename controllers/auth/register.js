@@ -36,7 +36,7 @@ const register = async (req, res, next) => {
             token,
             user: {
                 email: newUser.email,
-                _id: newUser._id,
+                // _id: newUser._id,
             },
         });
     } catch (error) {

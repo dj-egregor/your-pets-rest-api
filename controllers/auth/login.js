@@ -29,13 +29,14 @@ const login = async (req, res, next) => {
         const updatedUserJson = await User.findByIdAndUpdate(user._id, {
             token,
         });
-
-        const updatedUser = updatedUserJson.toObject();
-        delete updatedUser.password;
+        console.log(updatedUserJson);
+        // const updatedUser = updatedUserJson.toObject();
+        // delete updatedUser.password;
 
         res.json({
             token,
-            user: { ...updatedUser },
+            user: { email },
+            // user: { ...updatedUser },
         });
     } catch (error) {
         next(error);
