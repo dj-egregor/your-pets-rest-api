@@ -30,6 +30,7 @@ const removeFavoritesNoticeByUser = async (req, res, next) => {
 
         res.status(200).json({
             message: 'notice deleted',
+            id: noticeId,
         });
     } catch (error) {
         next(error);
