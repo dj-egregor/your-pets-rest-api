@@ -329,7 +329,7 @@
                 }
             }
         },
-        "/notices/{category}": {
+        "/notices/notices/{category}": {
             "get": {
                 "tags": ["Notices"],
                 "summary": "Search for notices by category and title",
@@ -377,161 +377,6 @@
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/NoticesResponseOwner"
-                                            }
-                                        },
-                                        "total": {
-                                            "type": "integer",
-                                            "default": 1
-                                        },
-                                        "totalPages": {
-                                            "type": "integer",
-                                            "default": 1
-                                        },
-                                        "currentPage": {
-                                            "type": "integer",
-                                            "default": 1
-                                        },
-                                        "limit": {
-                                            "type": "integer",
-                                            "default": 12
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "There are no notices for this request",
-                        "content": {}
-                    }
-                }
-            }
-        },
-        "/notices/search/{category}": {
-            "get": {
-                "tags": ["Notices"],
-                "summary": "Search for notices by category and title",
-                "parameters": [
-                    {
-                        "name": "category",
-                        "in": "path",
-                        "description": "The category of the notices to search for",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": ["sell", "in-good-hands", "lost-found"]
-                        }
-                    },
-                    {
-                        "name": "q",
-                        "in": "query",
-                        "description": "The search query to match against notice titles",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "The page number to retrieve",
-                        "required": false,
-                        "type": "integer",
-                        "default": 1
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The maximum number of notices to retrieve per page",
-                        "required": false,
-                        "type": "integer",
-                        "default": 12
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id<br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "notices": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/NoticesResponse"
-                                            }
-                                        },
-                                        "total": {
-                                            "type": "integer",
-                                            "default": 1
-                                        },
-                                        "totalPages": {
-                                            "type": "integer",
-                                            "default": 1
-                                        },
-                                        "currentPage": {
-                                            "type": "integer",
-                                            "default": 1
-                                        },
-                                        "limit": {
-                                            "type": "integer",
-                                            "default": 12
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "There are no notices for this request",
-                        "content": {}
-                    }
-                }
-            }
-        },
-        "/notices/category/{category}": {
-            "get": {
-                "tags": ["Notices"],
-                "summary": "Search for notices by category",
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "category",
-                        "description": "The category to search for notices",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": ["sell", "in-good-hands", "lost-found"]
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "The page number to retrieve",
-                        "required": false,
-                        "type": "integer",
-                        "default": 1
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "The maximum number of notices to retrieve per page",
-                        "required": false,
-                        "type": "integer",
-                        "default": 12
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id<br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "notices": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/NoticesResponse"
                                             }
                                         },
                                         "total": {
@@ -628,6 +473,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Notice add"
+                                        },
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "646657657e56e705334291b2"
                                         }
                                     }
                                 }
@@ -677,6 +526,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "notice deleted"
+                                        },
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "646657657e56e705334291b2"
                                         }
                                     }
                                 }
@@ -791,7 +644,7 @@
                                     },
                                     "birthday": {
                                         "type": "string",
-                                        "description": "date. The pets's birthday, max date - now. Format - 15-05-2021"
+                                        "description": "date. The pets's birthday, max date - now. Format - 2021-05-25"
                                     },
                                     "breed": {
                                         "type": "string",
@@ -1118,7 +971,19 @@
                     },
                     "404": {
                         "description": "Pet not found",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pet not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1201,7 +1066,7 @@
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, news id <br><br> <b>imgURL</b> - string, URL to news's image<br><br> <b>title</b> - string, news title <br><br> <b>text</b> - string, news text <br><br> <b>date</b> - string, news date <br><br> <b>url</b> - string, link to the source<br><br> <b>id</b> - string, news id on source ",
+                        "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, Sponsor id <br><br> <b>title</b> - string, Sponsor title<br><br> <b>url</b> - string, Sponsor url website <br><br> <b>addressUrl</b> - string, Google Map Location url <br><br> <b>imgURL</b> - string, URL to sponsor's logo <br><br> <b>address</b> - string, friend address <br><br> <b>workDays</b> - object, work days <br><br> <b>isOpen</b> - boolean, Work or Weekend <br><br> <b>from</b> - string, Start work time <br><br> <b>to</b> - string, End work time <br><br> <b>phone</b> - string, friend phone number <br><br> <b>email</b> - string, friend email",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1409,7 +1274,8 @@
                     "city": "Lviv",
                     "name": "Helen",
                     "phone": "+380678884455",
-                    "photoPublicId": "users-avatars/crcupjdujufcwfk8bltq"
+                    "photoPublicId": "users-avatars/crcupjdujufcwfk8bltq",
+                    "updatedAt": "2023-05-20T13:33:08.852Z"
                 }
             },
             "NoticesRequest": {
@@ -1525,7 +1391,8 @@
                     "photoURL": {
                         "type": "string",
                         "description": "URL to pet's avatar image"
-                    },"photoPublicId": {
+                    },
+                    "photoPublicId": {
                         "type": "string",
                         "description": "Cloudinary photo public id"
                     }
@@ -1543,7 +1410,9 @@
                     "comments": "Все гуд, давай сначала",
                     "owner": "6465490f66bc396723e59e0b",
                     "photoURL": "http://res.cloudinary.com/yourpet/image/upload/v1684417291/users-notices/xawinvrtpijxgy525maf.jpg",
-                    "photoPublicId": "users-notices/xawinvrtpijxgy525maf"
+                    "photoPublicId": "users-notices/xawinvrtpijxgy525maf",
+                    "createdAt": "2023-05-24T13:50:40.739Z",
+                    "updatedAt": "2023-05-24T13:50:40.739Z"
                 }
             },
             "NoticesResponseOwner": {
@@ -1643,7 +1512,9 @@
                         "phone": "+380678881111"
                     },
                     "photoURL": "notices-img/4548164d-6521-4f55-9776-478ae59c8973.jpg",
-                    "photoPublicId": "users-notices/xawinvrtpijxgy525maf"
+                    "photoPublicId": "users-notices/xawinvrtpijxgy525maf",
+                    "createdAt": "2023-05-24T12:54:19.976Z",
+                    "updatedAt": "2023-05-24T12:54:19.976Z"
                 }
             },
             "PetRequest": {
