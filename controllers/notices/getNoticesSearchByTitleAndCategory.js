@@ -8,6 +8,9 @@ const getNoticesSearchByTitleAndCategory = async (req, res, next) => {
         const { page = 1, limit = 12, q = '' } = req.query;
         const skip = (page - 1) * limit;
 
+        console.log('req.params', req.params);
+        console.log('req.query', req.query);
+
         const searchWords = q.trim().split(' ');
         const regex = new RegExp(searchWords, 'i');
 
@@ -23,9 +26,8 @@ const getNoticesSearchByTitleAndCategory = async (req, res, next) => {
             .limit(limit)
             .populate({
                 path: 'owner',
-                select: 'email phone', // Укажите поля, которые нужно включить
+                select: 'email phone',
             });
-        // .populate('ownerInfo');
 
         if (notices.length === 0) {
             throw new NotFound(`There are no notices for this requestQQQQQQQQ`);
